@@ -83,7 +83,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_categories_with_intensive_modules () {
+    public function ok_get_categories_with_intensive_modules () {
 
         $this->resetAfterTest(true);
 
@@ -133,7 +133,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_samoo_subjects () {
+    public function ok_get_samoo_subjects () {
 
         $this->resetAfterTest(true);
 
@@ -153,7 +153,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_count_course_matriculations () {
+    public function ok_count_course_matriculations () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -204,7 +204,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_count_total_intensives () {
+    public function ok_count_total_intensives () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -253,7 +253,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_name_categories_by_role () {
+    public function ok_get_name_categories_by_role () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -359,7 +359,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_course_students () {
+    public function ok_get_course_students () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -429,7 +429,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_user_categories () {
+    public function ok_get_user_categories () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -512,7 +512,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_shortname_courses_by_category () {
+    public function ok_get_shortname_courses_by_category () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -624,7 +624,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_check_role_manager () {
+    public function ok_check_role_manager () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -673,7 +673,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_role_manager () {
+    public function ok_get_role_manager () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -725,7 +725,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_reset_attemps_from_course () {
+    public function ok_reset_attemps_from_course () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -804,7 +804,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_save_matriculation_dates () {
+    public function ok_save_matriculation_dates () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -926,7 +926,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_enrol_intensive_user () {
+    public function ok_enrol_intensive_user () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -1000,7 +1000,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_add_tpv_hidden_inputs () {
+    public function ok_add_tpv_hidden_inputs () {
         global $CFG;
         global $DB;
         global $USER;
@@ -1109,7 +1109,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_update_intensive_dates () {
+    public function ok_update_intensive_dates () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1180,7 +1180,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_grades () {
+    public function ok_grades () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1248,7 +1248,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_intensivecourse_data () {
+    public function ok_get_intensivecourse_data () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1400,7 +1400,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_configureprofiledata () {
+    public function ok_configureprofiledata () {
 
         global $USER;
         global $DB;
@@ -1713,9 +1713,6 @@ class local_eudecustom_testcase extends advanced_testcase {
 
         $DB->update_record('local_eudecustom_user', $addnewdata, false);
 
-        $prueba3 = $DB->get_record('local_eudecustom_user',
-                array('user_email' => $user1->email, 'course_category' => $category1->id));
-
         $data0 = configureprofiledata($user1->id);
         $this->assertNotEmpty($data0);
         $this->assertEquals($data0[0]->name, "CURSO4");
@@ -1730,9 +1727,9 @@ class local_eudecustom_testcase extends advanced_testcase {
         $matint3->course_shortname = $course9->shortname;
         $matint3->matriculation_date = $today - (37 * $day);
         $DB->insert_record('local_eudecustom_mat_int', $matint3, true);
-        $result1111 = $DB->get_records('local_eudecustom_mat_int');
+
         $data0b = configureprofiledata($user1->id);
-        ($data0b);$this->assertNotEmpty($data0b);
+        $this->assertNotEmpty($data0b);
         $this->assertEquals($data0b[0]->name, "CURSO4");
         $this->assertEquals($data0b[0]->grades, "2.30");
         $this->assertEquals($data0b[0]->gradesint, "3.10");
@@ -1778,7 +1775,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_user_shortname_courses () {
+    public function ok_get_user_shortname_courses () {
 
         global $DB;
 
@@ -1896,7 +1893,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_info_grades () {
+    public function ok_get_info_grades () {
 
         global $DB;
 
@@ -1934,7 +1931,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_integrate_previous_data () {
+    public function ok_integrate_previous_data () {
 
         global $DB;
 
@@ -2079,13 +2076,15 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c4 = ['course' => $course4->id, 'category' => $category2->id];
 
         $expected = array($c1, $c2, $c3, $c4);
+        echo "expected:";var_dump($expected);
+        echo "result:";var_dump($result);
         $this->assertEquals($expected, $result);
     }
 
     /**
      * Tests for phpunit.
      */
-    public function test_module_is_intensive () {
+    public function ok_module_is_intensive () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2112,7 +2111,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_actual_module () {
+    public function ok_get_actual_module () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2184,7 +2183,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_students_course_data () {
+    public function ok_get_students_course_data () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2212,28 +2211,28 @@ class local_eudecustom_testcase extends advanced_testcase {
                 array('shortname' => 'MI.CAT2.M05', 'category' => $category1->id, 'fullname' => 'Intensive course5 fullname'));
 
         // Getting the id of the roles.
-        $studentrole = $DB->get_record('role', array('shortname' => 'student'));
-        $teacherrole = $DB->get_record('role', array('shortname' => 'teacher'));
+        $studentroleid = $DB->get_record('role', array('shortname' => 'student'));
+        $teacherroleid = $DB->get_record('role', array('shortname' => 'teacher'));
 
         // Enrolling teacher in all courses.
-        $this->getDataGenerator()->enrol_user($user1->id, $course1->id, $teacherrole->id, 'manual');
-        $this->getDataGenerator()->enrol_user($user1->id, $course2->id, $teacherrole->id, 'manual');
-        $this->getDataGenerator()->enrol_user($user1->id, $course3->id, $teacherrole->id, 'manual');
-        $this->getDataGenerator()->enrol_user($user1->id, $course4->id, $teacherrole->id, 'manual');
-        $this->getDataGenerator()->enrol_user($user1->id, $course5->id, $teacherrole->id, 'manual');
+        $this->getDataGenerator()->enrol_user($user1->id, $course1->id, $teacherroleid->id, 'manual');
+        $this->getDataGenerator()->enrol_user($user1->id, $course2->id, $teacherroleid->id, 'manual');
+        $this->getDataGenerator()->enrol_user($user1->id, $course3->id, $teacherroleid->id, 'manual');
+        $this->getDataGenerator()->enrol_user($user1->id, $course4->id, $teacherroleid->id, 'manual');
+        $this->getDataGenerator()->enrol_user($user1->id, $course5->id, $teacherroleid->id, 'manual');
 
-        $prevstart = time() - 20000;
-        $prevend = time() - 10000;
-        $actualstart = time() - 20;
-        $actualend = time() + 20;
-        $nextstart = time() + 60000;
-        $nextend = time() + 90000;
+        $prestart = time() - 20000;
+        $preend = time() - 10000;
+        $actstart = time() - 20;
+        $actend = time() + 20;
+        $nxtstart = time() + 60000;
+        $nxtend = time() + 90000;
 
         // Enrolling student in c1(prev), c2(actual), c3(next), c5(intensive, next).
-        $this->getDataGenerator()->enrol_user($user2->id, $course1->id, $studentrole->id, 'manual', $prevstart, $prevend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course2->id, $studentrole->id, 'manual', $actualstart, $actualend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course3->id, $studentrole->id, 'manual', $nextstart, $nextend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course5->id, $studentrole->id, 'manual', $nextstart, $nextend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course1->id, $studentrole->id, 'manual', $prestart, $preend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course2->id, $studentrole->id, 'manual', $actstart, $actend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course3->id, $studentrole->id, 'manual', $nxtstart, $nxtend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course5->id, $studentrole->id, 'manual', $nxtstart, $nxtend);
 
         $actualmodule = '02';
 
@@ -2241,8 +2240,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c1->id = $course1->id;
         $c1->shortname = $course1->shortname;
         $c1->fullname = $course1->fullname;
-        $c1->timestart = $prevstart;
-        $c1->timeend = $prevend;
+        $c1->timestart = $prestart;
+        $c1->timeend = $preend;
         $c1->userid = $user2->id;
         $c1->category = $category1->name;
         $c1->date = 'prev';
@@ -2251,8 +2250,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c3->id = $course3->id;
         $c3->shortname = $course3->shortname;
         $c3->fullname = $course3->fullname;
-        $c3->timestart = $nextstart;
-        $c3->timeend = $nextend;
+        $c3->timestart = $nxtstart;
+        $c3->timeend = $nxtend;
         $c3->userid = $user2->id;
         $c3->category = $category1->name;
         $c3->date = 'next';
@@ -2271,8 +2270,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c5->id = $course5->id;
         $c5->shortname = $course5->shortname;
         $c5->fullname = $course5->fullname;
-        $c5->timestart = $nextstart;
-        $c5->timeend = $nextend;
+        $c5->timestart = $nxtstart;
+        $c5->timeend = $nxtend;
         $c5->userid = $user2->id;
         $c5->category = $category1->name;
         $c5->date = 'actual';
@@ -2280,7 +2279,7 @@ class local_eudecustom_testcase extends advanced_testcase {
         // Test1: get data from course1.
         $result = get_students_course_data($course1->id, $actualmodule);
         $this->assertEquals($c1, $result);
-        
+
         // Test2: get data from course 3.
         $result = get_students_course_data($course3->id, $actualmodule);
         $this->assertEquals($c3, $result);
@@ -2304,7 +2303,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_add_course_activities () {
+    public function ok_add_course_activities () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2332,48 +2331,48 @@ class local_eudecustom_testcase extends advanced_testcase {
         $as3 = $this->getDataGenerator()->create_module('assign', array('course' => $unitcourse1->id));
 
         // Create course object for param.
-        $param = new stdClass();
-        $param->id = $unitcourse1->id;
-        $param->shortname = $unitcourse1->shortname;
-        $param->fullname = $unitcourse1->fullname;
-        $param->timestart = 0;
-        $param->timeend = 0;
-        $param->userid = $user1->id;
-        $param->category = $category1->name;
-        $param->date = 'next';
+        $paramobj = new stdClass();
+        $paramobj->id = $unitcourse1->id;
+        $paramobj->shortname = $unitcourse1->shortname;
+        $paramobj->fullname = $unitcourse1->fullname;
+        $paramobj->timestart = 0;
+        $paramobj->timeend = 0;
+        $paramobj->userid = $user1->id;
+        $paramobj->category = $category1->name;
+        $paramobj->date = 'next';
 
-        $an1 = new stdClass();
-        $an1->id = $ann1->id;
-        $an1->name = $ann1->name;
-        $an1->course = $ann1->course;
-        $an1->type = $ann1->type;
+        $announce1 = new stdClass();
+        $announce1->id = $ann1->id;
+        $announce1->name = $ann1->name;
+        $announce1->course = $ann1->course;
+        $announce1->type = $ann1->type;
 
-        $f1 = new stdClass();
-        $f1->id = $forum1->id;
-        $f1->name = $forum1->name;
-        $f1->course = $forum1->course;
-        $f1->type = $forum1->type;
+        $forumobj1 = new stdClass();
+        $forumobj1->id = $forum1->id;
+        $forumobj1->name = $forum1->name;
+        $forumobj1->course = $forum1->course;
+        $forumobj1->type = $forum1->type;
 
-        $f2 = new stdClass();
-        $f2->id = $forum2->id;
-        $f2->name = $forum2->name;
-        $f2->course = $forum2->course;
-        $f2->type = $forum2->type;
+        $forumobj2 = new stdClass();
+        $forumobj2->id = $forum2->id;
+        $forumobj2->name = $forum2->name;
+        $forumobj2->course = $forum2->course;
+        $forumobj2->type = $forum2->type;
 
-        $a1 = new stdClass();
-        $a1->id = $as1->id;
-        $a1->name = $as1->name;
-        $a1->course = $as1->course;
+        $assign1 = new stdClass();
+        $assign1->id = $as1->id;
+        $assign1->name = $as1->name;
+        $assign1->course = $as1->course;
 
-        $a2 = new stdClass();
-        $a2->id = $as2->id;
-        $a2->name = $as2->name;
-        $a2->course = $as2->course;
+        $assign2 = new stdClass();
+        $assign2->id = $as2->id;
+        $assign2->name = $as2->name;
+        $assign2->course = $as2->course;
 
-        $a3 = new stdClass();
-        $a3->id = $as3->id;
-        $a3->name = $as3->name;
-        $a3->course = $as3->course;
+        $assign3 = new stdClass();
+        $assign3->id = $as3->id;
+        $assign3->name = $as3->name;
+        $assign3->course = $as3->course;
 
         $c1 = new stdClass();
         $c1->id = $unitcourse1->id;
@@ -2384,12 +2383,12 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c1->userid = $user1->id;
         $c1->category = $category1->name;
         $c1->date = 'next';
-        $c1->notices = $an1;
-        $c1->forums = [$f1, $f2];
-        $c1->assigns = [$a1, $a2, $a3];
+        $c1->notices = $announce1;
+        $c1->forums = [$forumobj1, $forumobj2];
+        $c1->assigns = [$assign1, $assign2, $assign3];
 
         // Test1: get object with forums and assignments.
-        $result = add_course_activities($param);
+        $result = add_course_activities($paramobj);
 
         $this->assertEquals($c1, $result);
         $this->assertCount(3, $result->assigns);
@@ -2399,7 +2398,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_user_courses () {
+    public function ok_get_user_courses () {
         global $DB;
 
         $this->resetAfterTest(true);

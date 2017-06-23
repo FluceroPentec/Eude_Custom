@@ -568,7 +568,9 @@ function grades ($cid, $userid) {
  */
 function get_user_all_courses ($userid) {
     global $DB;
-    $sql = 'SELECT  DISTINCT c.*
+    
+    $role = $DB->get_record('role', array('shortname' => 'student'));
+    $sql = "SELECT  DISTINCT c.*
               FROM {course} c
               JOIN (SELECT DISTINCT e.courseid
                       FROM {enrol} e
@@ -584,15 +586,14 @@ function get_user_all_courses ($userid) {
                             AND ra.contextid = ctx.id
                             AND ra.userid = :user
                             )
-             WHERE c.format <> :format AND ra.id IS NOT NULL
-             ORDER BY c.visible DESC, c.sortorder ASC';
+             WHERE c.format NOT LIKE 'site' AND ra.id IS NOT NULL
+             ORDER BY c.visible DESC, c.sortorder ASC";
     $data = $DB->get_records_sql($sql,
             array(
         'userid' => $userid,
         'user' => $userid,
         'context' => CONTEXT_COURSE,
-        'format' => 'site',
-        'role' => '5'));
+        'role' => $role->id));
     return $data;
 }
 
@@ -885,7 +886,8 @@ function get_usercourses_by_rol ($userid) {
                   AND CTX.contextlevel = :context
                   AND (R.shortname = :role1
                    OR R.shortname = :role2
-                   OR R.shortname = :role3)';
+                   OR R.shortname = :role3)
+             ORDER BY C.id';
 
     $rolrecords = $DB->get_records_sql($rolsql,
             array(
@@ -936,7 +938,7 @@ function get_students_course_data ($courseid, $actualmodule) {
     global $DB;
 
     $role = $DB->get_record('role', array('shortname' => 'student'))->id;
-    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category'
+    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category name'
                     FROM {course} C
                     JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
@@ -966,7 +968,7 @@ function get_students_course_data ($courseid, $actualmodule) {
             $res->date = 'actual';
         }
     } else {
-        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category'
+        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name AS 'category name'
                     FROM {course} C
                     JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
@@ -1323,7 +1325,7 @@ function validatedate($date, $format = 'Y-m-d H:i:s') {
  * @param string $courseshortname string with the shortname of the course
  * @return stdClass $course;
  */
-function findcategory($courseshortname){
+function findcategory($courseshortname) {
     global $DB;
     // If the course is not integrated yet, we find the category by the course shortname index.
     if ($DB->record_exists('course', array('shortname' => $courseshortname))) {
@@ -1351,7 +1353,7 @@ function findcategory($courseshortname){
  * @param object $data object with the course data.
  * @return string $html;
  */
-function get_intensive_action($data){
+function get_intensive_action($data) {
     if ($data->action == 'notenroled') {
         switch ($data->actiontitle) {
             case get_string('bringforward', 'local_eudecustom'):
@@ -1386,7 +1388,7 @@ function get_intensive_action($data){
  *
  * @return string $html;
  */
-function generate_event_keys(){
+function generate_event_keys($modal = '') {
     $html = html_writer::tag('h3', get_string('eventkeytitle', 'local_eudecustom'));
     $html .= html_writer::start_tag('ul', array('class' => 'eventkey'));
 
@@ -1395,7 +1397,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeymodulebegin', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeymodulebegin',
-                'class' => 'cb-eventkey', 'name' => 'modulebegin', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'modulebegin'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div',
                     array('id' => 'cd-eventkeymodulebegin',
                 'class' => 'cd-eventkey eventkeymodulebegin'));
@@ -1406,7 +1408,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeyactivityend', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeyactivityend',
-                'class' => 'cb-eventkey', 'name' => 'activityend', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'activityend'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div',
                     array('id' => 'cd-eventkeyactivityend',
                 'class' => 'cd-eventkey eventkeyactivityend'));
@@ -1417,7 +1419,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeyquestionnairedate', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeyquestionnairedate',
-                'class' => 'cb-eventkey', 'name' => 'questionnairedate', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'questionnairedate'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div',
                     array('id' => 'cd-eventkeyquestionnairedate',
                 'class' => 'cd-eventkey eventkeyquestionnairedate'));
@@ -1431,7 +1433,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeytestdate', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeytestdate',
-                'class' => 'cb-eventkey', 'name' => 'testdate', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'testdate'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div', array('id' => 'cd-eventkeytestdate', 'class' => 'cd-eventkey eventkeytestdate'));
     $html .= html_writer::end_tag('div');
     $html .= html_writer::tag('span', get_string('eventkeytestdate', 'local_eudecustom'));
@@ -1440,7 +1442,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeyintensivemodulebegin', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeyintensivemodulebegin',
-                'class' => 'cb-eventkey', 'name' => 'intensivemodulebegin', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'intensivemodulebegin'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div',
                     array('id' => 'cd-eventkeyintensivemodulebegin',
                 'class' => 'cd-eventkey eventkeyintensivemodulebegin'));
@@ -1454,7 +1456,7 @@ function generate_event_keys(){
     $html .= html_writer::start_tag('li', array('id' => 'eventkeyeudeevent', 'class' => 'eventkey'));
     $html .= html_writer::empty_tag('input',
                     array('type' => 'checkbox', 'id' => 'cb-eventkeyeudeevent',
-                'class' => 'cb-eventkey', 'name' => 'eudeevent', 'checked' => 'checked'));
+                'class' => 'cb-eventkey', 'name' => 'eudeevent'.$modal, 'checked' => 'checked'));
     $html .= html_writer::start_tag('div', array('id' => 'cd-eventkeyeudeevent', 'class' => 'cd-eventkey eventkeyeudeevent'));
     $html .= html_writer::end_tag('div');
     $html .= html_writer::tag('span', get_string('eventkeyeudeevent', 'local_eudecustom'));
@@ -1463,6 +1465,5 @@ function generate_event_keys(){
     $html .= html_writer::end_tag('div');
 
     $html .= html_writer::end_tag('ul');
-    
     return $html;
 }
