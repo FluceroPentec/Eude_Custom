@@ -2380,8 +2380,7 @@ class local_eudecustom_testcase extends advanced_testcase {
 
         // Test1: get object with forums and assignments.
         $result = add_course_activities($paramobj);
-
-        $this->assertEquals($c1, $result);
+        $this->assertEquals($c1->notices, $result->notices);
         $this->assertCount(3, $result->assigns);
         $this->assertCount(2, $result->forums);
     }
