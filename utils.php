@@ -568,7 +568,7 @@ function grades ($cid, $userid) {
  */
 function get_user_all_courses ($userid) {
     global $DB;
-    
+
     $role = $DB->get_record('role', array('shortname' => 'student'));
     $sql = "SELECT  DISTINCT c.*
               FROM {course} c

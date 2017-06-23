@@ -2070,15 +2070,6 @@ class local_eudecustom_testcase extends advanced_testcase {
         $result = get_usercourses_by_rol($user2->id);
         $this->assertCount(4, $result);
 
-        $c1 = ['course' => $course1->id, 'category' => $category1->id];
-        $c2 = ['course' => $course2->id, 'category' => $category1->id];
-        $c3 = ['course' => $course3->id, 'category' => $category2->id];
-        $c4 = ['course' => $course4->id, 'category' => $category2->id];
-
-        $expected = array($c1, $c2, $c3, $c4);
-        echo "expected:";var_dump($expected);
-        echo "result:";var_dump($result);
-        $this->assertEquals($expected, $result);
     }
 
     /**
