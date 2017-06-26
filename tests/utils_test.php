@@ -2220,10 +2220,10 @@ class local_eudecustom_testcase extends advanced_testcase {
         $nxtend = time() + 90000;
 
         // Enrolling student in c1(prev), c2(actual), c3(next), c5(intensive, next).
-        $this->getDataGenerator()->enrol_user($user2->id, $course1->id, $studentrole->id, 'manual', $prestart, $preend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course2->id, $studentrole->id, 'manual', $actstart, $actend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course3->id, $studentrole->id, 'manual', $nxtstart, $nxtend);
-        $this->getDataGenerator()->enrol_user($user2->id, $course5->id, $studentrole->id, 'manual', $nxtstart, $nxtend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course1->id, $studentroleid->id, 'manual', $prestart, $preend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course2->id, $studentroleid->id, 'manual', $actstart, $actend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course3->id, $studentroleid->id, 'manual', $nxtstart, $nxtend);
+        $this->getDataGenerator()->enrol_user($user2->id, $course5->id, $studentroleid->id, 'manual', $nxtstart, $nxtend);
 
         $actualmodule = '02';
 
