@@ -1276,6 +1276,7 @@ function integrate_previous_data ($data) {
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
                     $res = $DB->get_record('local_eudecustom_mat_int');
                     var_dump($res);
+
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategoryname));
                     // Create/Update entry in local_eudecustom_user.
