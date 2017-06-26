@@ -1245,7 +1245,6 @@ function integrate_previous_data ($data) {
                 $coursecategorynamearray = explode(".", $courseshortname);
                 $coursecategoryname = $categoryequivalencyname[$coursecategorynamearray[1]];
 
-   
             } else {
                 throw new Exception('Error');
             }
@@ -1275,7 +1274,6 @@ function integrate_previous_data ($data) {
                     $record1->conv_number = $convnumber;
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
                     $res = $DB->get_record('local_eudecustom_mat_int');
-                    var_dump($res);
 
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategoryname));

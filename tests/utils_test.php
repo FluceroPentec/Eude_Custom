@@ -1978,9 +1978,7 @@ class local_eudecustom_testcase extends advanced_testcase {
         $expectedmatintrecords = $DB->get_records('local_eudecustom_mat_int');
         $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
         $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
-        echo "records"; var_dump($expectedmatintrecords);
-        echo "r1"; var_dump($expecteduserrecord1);
-        echo "r2"; var_dump($expecteduserrecord2);
+
         $this->assertTrue($result);
         $this->assertCount(2, $expectedmatintrecords);
         $this->assertEquals($user1->email, $expecteduserrecord1->user_email);
