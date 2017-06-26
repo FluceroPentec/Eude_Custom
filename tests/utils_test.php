@@ -1059,7 +1059,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function todo_get_user_all_courses () {
+    public function ok_get_user_all_courses () {
 
         $this->resetAfterTest();
 
@@ -1932,7 +1932,6 @@ class local_eudecustom_testcase extends advanced_testcase {
      * Tests for phpunit.
      */
     public function test_integrate_previous_data () {
-
         global $DB;
 
         $this->resetAfterTest(true);
