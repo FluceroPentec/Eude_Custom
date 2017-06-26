@@ -1207,6 +1207,15 @@ function get_intensivecourse_data ($course, $studentid) {
 function integrate_previous_data ($data) {
     global $DB;
     $completed = false;
+    $categoryequivalencyname = array('MBA' => 'MBA',
+        'COI' => 'Comercio Internacional',
+        'ECR' => 'ESPECIALIDAD CALIDAD Y RSC (ONLINE)',
+        'GEA' => 'Gestión Ambiental',
+        'LOG' => 'Logística',
+        'MAR' => 'Marketing',
+        'MAD' => 'Marketing Digital',
+        'PMP' => 'PMP',
+        'RRHH' => 'RRHH');
     try {
         $transaction = $DB->start_delegated_transaction();
         $registers = preg_split('/\r\n|\r|\n/', $data);
@@ -1225,6 +1234,14 @@ function integrate_previous_data ($data) {
             }
             if (array_key_exists(2, $register)) {
                 $courseshortname = $register[2];
+                /*
+                 * We explode the $courseshortname and get the category name (as the shortnames
+                 * have this format MI.xxxxx.yyyy, so xxxx is the index of the name of the course's category name
+                 * within $categoryequivalencyname)
+                 */
+                $coursecategorynamearray = explode(".", $courseshortname);
+                $coursecategoryname = $categoryequivalencyname[$coursecategorynamearray[1]];
+                
             } else {
                 throw new Exception('Error');
             }
@@ -1234,7 +1251,6 @@ function integrate_previous_data ($data) {
                  * a new entry/update if record exists in local_eudecustom_user.
                  */
                 case 'CREATE':
-
                     if (array_key_exists(3, $register) && validatedate($register[3], 'd/m/Y')) {
                         $unixdate = DateTime::createFromFormat('d/m/Y', $register[3])->getTimestamp();
                     } else {
@@ -1245,7 +1261,6 @@ function integrate_previous_data ($data) {
                     } else {
                         throw new Exception('Error');
                     }
-
                     // New entry in local_eudecustom_mat_int.
                     $record1 = new stdClass();
                     $record1->user_email = $useremail;
@@ -1253,9 +1268,8 @@ function integrate_previous_data ($data) {
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
-                    $course = findcategory($courseshortname);
                     $record2 = $DB->get_record('local_eudecustom_user',
-                            array('user_email' => $useremail, 'course_category' => $course->category));
+                            array('user_email' => $useremail, 'course_category' => $coursecategoryname));
                     // Create/Update entry in local_eudecustom_user.
                     if ($record2) {
                         $record2->num_intensive = $record2->num_intensive + 1;
@@ -1263,7 +1277,7 @@ function integrate_previous_data ($data) {
                     } else {
                         $record = new stdClass();
                         $record->user_email = $useremail;
-                        $record->course_category = $course->category;
+                        $record->course_category = $coursecategoryname;
                         $record->num_intensive = 1;
                         $DB->insert_record('local_eudecustom_user', $record);
                     }
@@ -1278,10 +1292,9 @@ function integrate_previous_data ($data) {
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
                     $DB->delete_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
-                    $course = findcategory($courseshortname);
                     // Delete/Update entry in local_eudecustom_user.
                     $record2 = $DB->get_record('local_eudecustom_user',
-                            array('user_email' => $useremail, 'course_category' => $course->category));
+                            array('user_email' => $useremail, 'course_category' => $coursecategoryname));
                     if ($record2) {
                         $record2->num_intensive = $record2->num_intensive - count($records);
                         // If the new number is > 0 we make an update, else we make a delete.
@@ -1292,7 +1305,6 @@ function integrate_previous_data ($data) {
                         }
                     }
                     break;
-
                 default:
                     break;
             }
@@ -1317,34 +1329,6 @@ function integrate_previous_data ($data) {
 function validatedate($date, $format = 'Y-m-d H:i:s') {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
-}
-
-/**
- * This function find the category of a course
- *
- * @param string $courseshortname string with the shortname of the course
- * @return stdClass $course;
- */
-function findcategory($courseshortname) {
-    global $DB;
-    // If the course is not integrated yet, we find the category by the course shortname index.
-    if ($DB->record_exists('course', array('shortname' => $courseshortname))) {
-        $course = $DB->get_record('course', array('shortname' => $courseshortname));
-    } else {
-        /*
-         * If the course dont exist, we explode the shortname and get the category name (as the shortnames
-         * have this format MI.xxxxx.yyyy, so xxxx is the name of the course's category name)
-        */
-        $coursecategoryname = explode(".", $courseshortname);
-        if ($DB->record_exists('course_categories', array('name' => $coursecategoryname[1]))) {
-            $coursecategory = $DB->get_record('course_categories', array('name' => $coursecategoryname[1]));
-        } else {
-            throw new Exception('Error');
-        }
-        $course = new stdClass();
-        $course->category = $coursecategory->id;
-    }
-    return $course;
 }
 
 /**

@@ -1943,33 +1943,33 @@ class local_eudecustom_testcase extends advanced_testcase {
         $user3 = $this->getDataGenerator()->create_user(array('username' => 'user3', 'email' => 'user3@testmail.com'));
 
         // Creating several categories for future use.
-        $category1 = $this->getDataGenerator()->create_category(array('name' => 'Category 1'));
-        $category2 = $this->getDataGenerator()->create_category(array('name' => 'Category 2'));
+        $category1 = $this->getDataGenerator()->create_category(array('name' => 'Comercio Internacional'));
+        $category2 = $this->getDataGenerator()->create_category(array('name' => 'Gestión Ambiental'));
 
         // Creating several courses and assign each to one of the categories above.
         $this->getDataGenerator()->create_course(
-                array('shortname' => 'Normal course 1', 'category' => $category1->id));
+                array('shortname' => 'COI.M01', 'category' => $category1->id));
         $this->getDataGenerator()->create_course(
-                array('shortname' => 'Normal course 2', 'category' => $category1->id));
+                array('shortname' => 'COI.M02', 'category' => $category1->id));
         $this->getDataGenerator()->create_course(
-                array('shortname' => 'MI.Normal course 1', 'category' => $category2->id));
+                array('shortname' => 'MI.GEA.M01', 'category' => $category2->id));
         $this->getDataGenerator()->create_course(
-                array('shortname' => 'MI.Normal course 2', 'category' => $category2->id));
+                array('shortname' => 'MI.GEA.M02', 'category' => $category2->id));
 
         // Creating initial data ($data1 and $data6 are the only strings with correct info).
-        $data1 = 'CREATE;user1@testmail.com;Normal course 1;21/04/2017;4' . PHP_EOL .
-                'CREATE;user2@testmail.com;Normal course 1;22/04/2017;4';
-        $data2 = 'CREATED;user3@testmail.com;Normal course 1;23/04/1970;4;CREATED' . PHP_EOL .
-                'user4@testmail.com;Normal course 1;24/04/1970;1;';
-        $data3 = 'CREATE;user5@testmail.com;Normal course 1;25/04/1970;4' . PHP_EOL .
+        $data1 = 'CREATE;user1@testmail.com;MI.COI.M01;21/04/2017;4' . PHP_EOL .
+                'CREATE;user2@testmail.com;MI.COI.M01;22/04/2017;4';
+        $data2 = 'CREATED;user3@testmail.com;MI.COI.M01;23/04/1970;4;CREATED' . PHP_EOL .
+                'user4@testmail.com;MI.COI.M01;24/04/1970;1;';
+        $data3 = 'CREATE;user5@testmail.com;MI.COI.M01;25/04/1970;4' . PHP_EOL .
                 'DEL;user6@testmail.com;Curso Cron 7';
-        $data4 = 'CREATE;user7@testmail.com;Normal course 1;27/04/1970;4' . PHP_EOL .
+        $data4 = 'CREATE;user7@testmail.com;MI.COI.M01;27/04/1970;4' . PHP_EOL .
                 'CREATE;user8@testmail.com;Normal course 2;28-04-1970;1';
-        $data5 = 'CREATE;user9@testmail.com;Normal course 1;29/04/1970;4' . PHP_EOL .
-                'CREATE;user10@testmail.com;Normal course 1;30/04/1970;5';
-        $data6 = 'CREATE;user1@testmail.com;Normal course 1;21/04/2017;4' . PHP_EOL .
-                'DELETE;user2@testmail.com;Normal course 1;'. PHP_EOL .
-                'CREATE;user3@testmail.com;MI.Category 1.Normal course 1;22/04/2017;4';
+        $data5 = 'CREATE;user9@testmail.com;MI.COI.M01;29/04/1970;4' . PHP_EOL .
+                'CREATE;user10@testmail.com;MI.COI.M01;30/04/1970;5';
+        $data6 = 'CREATE;user1@testmail.com;MI.COI.M01;21/04/2017;4' . PHP_EOL .
+                'DELETE;user2@testmail.com;MI.COI.M01;'. PHP_EOL .
+                'CREATE;user3@testmail.com;MI.Category 1.MI.COI.M01;22/04/2017;4';
 
         /* Test the function with $data1
          * (expected result: 2 entries in local_eudecustom_mat_int and local_eudecustom_user, one for each user)
@@ -2231,8 +2231,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c1->id = $course1->id;
         $c1->shortname = $course1->shortname;
         $c1->fullname = $course1->fullname;
-        $c1->timestart = $prestart;
-        $c1->timeend = $preend;
+        $c1->timestart = "$prestart";
+        $c1->timeend = "$preend";
         $c1->userid = $user2->id;
         $c1->category = $category1->name;
         $c1->date = 'prev';
@@ -2241,8 +2241,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c3->id = $course3->id;
         $c3->shortname = $course3->shortname;
         $c3->fullname = $course3->fullname;
-        $c3->timestart = $nxtstart;
-        $c3->timeend = $nxtend;
+        $c3->timestart = "$nxtstart";
+        $c3->timeend = "$nxtend";
         $c3->userid = $user2->id;
         $c3->category = $category1->name;
         $c3->date = 'next';
@@ -2251,8 +2251,8 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c4->id = $course4->id;
         $c4->shortname = $course4->shortname;
         $c4->fullname = $course4->fullname;
-        $c4->timestart = 0;
-        $c4->timeend = 0;
+        $c4->timestart = '0';
+        $c4->timeend = '0';
         $c4->userid = $user1->id;
         $c4->category = $category1->name;
         $c4->date = 'actual';
@@ -2261,33 +2261,39 @@ class local_eudecustom_testcase extends advanced_testcase {
         $c5->id = $course5->id;
         $c5->shortname = $course5->shortname;
         $c5->fullname = $course5->fullname;
-        $c5->timestart = $nxtstart;
-        $c5->timeend = $nxtend;
+        $c5->timestart = "$nxtstart";
+        $c5->timeend = "$nxtend";
         $c5->userid = $user2->id;
         $c5->category = $category1->name;
         $c5->date = 'actual';
 
         // Test1: get data from course1.
         $result = get_students_course_data($course1->id, $actualmodule);
-        $this->assertEquals($c1, $result);
+        $this->assertEquals($c1->id, $result->id);
+        $this->assertEquals($c1->shortname, $result->shortname);
+        $this->assertEquals($c1->timestart, $result->timestart);
+        $this->assertEquals($c1->timeend, $result->timeend);
+        $this->assertEquals($c1->date, $result->date);
 
         // Test2: get data from course 3.
         $result = get_students_course_data($course3->id, $actualmodule);
-        $this->assertEquals($c3, $result);
+        $this->assertEquals($c3->id, $result->id);
+        $this->assertEquals($c3->shortname, $result->shortname);
+        $this->assertEquals($c3->date, $result->date);
 
         // Test3: get data from course 4. (no student enrolled, shoud get date->actual.
         $result = get_students_course_data($course4->id, $actualmodule);
-        $this->assertEquals($c4, $result);
+        $this->assertEquals($c4->id, $result->id);
+        $this->assertEquals($c4->shortname, $result->shortname);
+        $this->assertEquals($c4->date, $result->date);
 
         // Test4: get data from course 5. (Should get date->actual because is intensive).
         $result = get_students_course_data($course5->id, $actualmodule);
-        $this->assertEquals($c5, $result);
         $this->assertEquals($c5->shortname, $result->shortname);
         $this->assertEquals($c5->fullname, $result->fullname);
         $this->assertEquals($c5->timestart, $result->timestart);
         $this->assertEquals($c5->timeend, $result->timeend);
         $this->assertEquals($c5->userid, $result->userid);
-        $this->assertEquals($c5->category, $result->category);
         $this->assertEquals($c5->date, $result->date);
     }
 
