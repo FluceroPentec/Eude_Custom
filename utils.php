@@ -938,9 +938,9 @@ function get_students_course_data ($courseid, $actualmodule) {
     global $DB;
 
     $role = $DB->get_record('role', array('shortname' => 'student'))->id;
-    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name 'category name'
+    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, pt.name 'category name'
                     FROM {course} C
-                    JOIN {course_categories} CC ON C.category = CC.id
+                    JOIN {course_categories} pt ON C.category = pt.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
                     JOIN {role_assignments} RA ON RA.contextid = CTX.id
                     JOIN {user_enrolments} UE ON UE.userid = RA.userid
@@ -968,9 +968,9 @@ function get_students_course_data ($courseid, $actualmodule) {
             $res->date = 'actual';
         }
     } else {
-        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name 'category name'
+        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, pt.name 'category name'
                     FROM {course} C
-                    JOIN {course_categories} CC ON C.category = CC.id
+                    JOIN {course_categories} pt ON C.category = pt.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
                     JOIN {role_assignments} RA ON RA.contextid = CTX.id
                     JOIN {user_enrolments} UE ON UE.userid = RA.userid
