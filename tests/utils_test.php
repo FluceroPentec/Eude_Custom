@@ -83,7 +83,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_categories_with_intensive_modules () {
+    public function test_get_categories_with_intensive_modules () {
 
         $this->resetAfterTest(true);
 
@@ -133,7 +133,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_samoo_subjects () {
+    public function test_get_samoo_subjects () {
 
         $this->resetAfterTest(true);
 
@@ -153,7 +153,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_count_course_matriculations () {
+    public function test_count_course_matriculations () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -204,7 +204,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_count_total_intensives () {
+    public function test_count_total_intensives () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -253,7 +253,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_name_categories_by_role () {
+    public function test_get_name_categories_by_role () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -359,7 +359,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_course_students () {
+    public function test_get_course_students () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -429,7 +429,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_user_categories () {
+    public function test_get_user_categories () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -512,7 +512,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_shortname_courses_by_category () {
+    public function test_get_shortname_courses_by_category () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -624,7 +624,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_check_role_manager () {
+    public function test_check_role_manager () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -673,7 +673,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_role_manager () {
+    public function test_get_role_manager () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -725,7 +725,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_reset_attemps_from_course () {
+    public function test_reset_attemps_from_course () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -804,7 +804,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_save_matriculation_dates () {
+    public function test_save_matriculation_dates () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -926,7 +926,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_enrol_intensive_user () {
+    public function test_enrol_intensive_user () {
         global $DB;
         $this->resetAfterTest(true);
 
@@ -1000,7 +1000,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_add_tpv_hidden_inputs () {
+    public function test_add_tpv_hidden_inputs () {
         global $CFG;
         global $DB;
         global $USER;
@@ -1059,7 +1059,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_user_all_courses () {
+    public function test_get_user_all_courses () {
 
         $this->resetAfterTest();
 
@@ -1109,7 +1109,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_update_intensive_dates () {
+    public function test_update_intensive_dates () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1180,7 +1180,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_grades () {
+    public function test_grades () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1248,7 +1248,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_intensivecourse_data () {
+    public function test_get_intensivecourse_data () {
         global $DB;
         $this->resetAfterTest();
 
@@ -1400,7 +1400,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_configureprofiledata () {
+    public function test_configureprofiledata () {
 
         global $USER;
         global $DB;
@@ -1775,7 +1775,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_user_shortname_courses () {
+    public function test_get_user_shortname_courses () {
 
         global $DB;
 
@@ -1893,7 +1893,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_info_grades () {
+    public function test_get_info_grades () {
 
         global $DB;
 
@@ -2023,7 +2023,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_usercourses_by_rol () {
+    public function test_get_usercourses_by_rol () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2075,7 +2075,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_module_is_intensive () {
+    public function test_module_is_intensive () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2102,7 +2102,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_actual_module () {
+    public function test_get_actual_module () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2174,7 +2174,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_students_course_data () {
+    public function test_get_students_course_data () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2300,7 +2300,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_add_course_activities () {
+    public function test_add_course_activities () {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -2394,7 +2394,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function ok_get_user_courses () {
+    public function test_get_user_courses () {
         global $DB;
 
         $this->resetAfterTest(true);
