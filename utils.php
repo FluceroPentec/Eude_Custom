@@ -938,9 +938,9 @@ function get_students_course_data ($courseid, $actualmodule) {
     global $DB;
 
     $role = $DB->get_record('role', array('shortname' => 'student'))->id;
-    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, pt.name 'category name'
+    $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name
                     FROM {course} C
-                    JOIN {course_categories} pt ON C.category = pt.id
+                    JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
                     JOIN {role_assignments} RA ON RA.contextid = CTX.id
                     JOIN {user_enrolments} UE ON UE.userid = RA.userid
@@ -968,9 +968,9 @@ function get_students_course_data ($courseid, $actualmodule) {
             $res->date = 'actual';
         }
     } else {
-        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, pt.name 'category name'
+        $sql2 = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name
                     FROM {course} C
-                    JOIN {course_categories} pt ON C.category = pt.id
+                    JOIN {course_categories} CC ON C.category = CC.id
                     JOIN {context} CTX ON C.id = CTX.instanceid
                     JOIN {role_assignments} RA ON RA.contextid = CTX.id
                     JOIN {user_enrolments} UE ON UE.userid = RA.userid
@@ -1272,11 +1272,8 @@ function integrate_previous_data ($data) {
                     $record1->course_shortname = $courseshortname;
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
-                    //echo "RECORD1:  ";var_dump($record1);
-                    $DB->set_debug(true);
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
-                    $res = $DB->get_record('local_eudecustom_mat_int');
-                    //echo "RES:  ";var_dump($res);
+
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategoryname));
                     // Create/Update entry in local_eudecustom_user.
