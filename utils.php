@@ -586,7 +586,7 @@ function get_user_all_courses ($userid) {
                             AND ra.contextid = ctx.id
                             AND ra.userid = :user
                             )
-             WHERE c.format NOT LIKE 'site' AND ra.id IS NOT NULL
+             WHERE c.id > 1 AND ra.id IS NOT NULL
              ORDER BY c.visible DESC, c.sortorder ASC";
     $data = $DB->get_records_sql($sql,
             array(
@@ -1224,16 +1224,19 @@ function integrate_previous_data ($data) {
             $register = explode(";", $register);
             if (array_key_exists(0, $register) && ($register[0] == 'CREATE' || $register[0] == 'DELETE')) {
                 $action = $register[0];
+
             } else {
                 throw new Exception('Error');
             }
             if (array_key_exists(1, $register)) {
                 $useremail = $register[1];
+
             } else {
                 throw new Exception('Error');
             }
             if (array_key_exists(2, $register)) {
                 $courseshortname = $register[2];
+
                 /*
                  * We explode the $courseshortname and get the category name (as the shortnames
                  * have this format MI.xxxxx.yyyy, so xxxx is the index of the name of the course's category name
@@ -1241,7 +1244,8 @@ function integrate_previous_data ($data) {
                  */
                 $coursecategorynamearray = explode(".", $courseshortname);
                 $coursecategoryname = $categoryequivalencyname[$coursecategorynamearray[1]];
-                
+
+   
             } else {
                 throw new Exception('Error');
             }
@@ -1253,11 +1257,13 @@ function integrate_previous_data ($data) {
                 case 'CREATE':
                     if (array_key_exists(3, $register) && validatedate($register[3], 'd/m/Y')) {
                         $unixdate = DateTime::createFromFormat('d/m/Y', $register[3])->getTimestamp();
+
                     } else {
                         throw new Exception('Error');
                     }
                     if (array_key_exists(4, $register) && is_int((int) $register[4]) && ($register[4] >= 1 && $register[4] <= 4)) {
                         $convnumber = $register[4];
+
                     } else {
                         throw new Exception('Error');
                     }
@@ -1268,6 +1274,8 @@ function integrate_previous_data ($data) {
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
+                    $res = $DB->get_record('local_eudecustom_mat_int');
+                    var_dump($res);
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategoryname));
                     // Create/Update entry in local_eudecustom_user.
