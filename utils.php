@@ -580,7 +580,7 @@ function get_user_all_courses ($userid) {
                AND ra.roleid = :role
                AND ra.contextid = ctx.id
                AND ra.userid = :user
-               AND C.id > 0
+               AND c.id > :site
           ORDER BY c.visible DESC, c.sortorder ASC';  
     $data = $DB->get_records_sql($sql,
             array(
@@ -1202,6 +1202,7 @@ function get_intensivecourse_data ($course, $studentid) {
 function integrate_previous_data ($data) {
     global $DB;
     $completed = false;
+    // These are the categories name of the courses we are going to integrate.
     $categoryequivalencyname = array('MBA' => 'MBA',
         'COI' => 'Comercio Internacional',
         'ECR' => 'ESPECIALIDAD CALIDAD Y RSC (ONLINE)',
@@ -1219,27 +1220,24 @@ function integrate_previous_data ($data) {
             $register = explode(";", $register);
             if (array_key_exists(0, $register) && ($register[0] == 'CREATE' || $register[0] == 'DELETE')) {
                 $action = $register[0];
-
             } else {
                 throw new Exception('Error');
             }
             if (array_key_exists(1, $register)) {
                 $useremail = $register[1];
-
             } else {
                 throw new Exception('Error');
             }
             if (array_key_exists(2, $register)) {
-                $courseshortname = $register[2];
-
                 /*
                  * We explode the $courseshortname and get the category name (as the shortnames
                  * have this format MI.xxxxx.yyyy, so xxxx is the index of the name of the course's category name
                  * within $categoryequivalencyname)
                  */
+                $courseshortname = $register[2];
                 $coursecategorynamearray = explode(".", $courseshortname);
                 $coursecategoryname = $categoryequivalencyname[$coursecategorynamearray[1]];
-
+                $coursecategory = $DB-> get_record('course_categories', array('name' => $coursecategoryname));
             } else {
                 throw new Exception('Error');
             }
@@ -1251,13 +1249,11 @@ function integrate_previous_data ($data) {
                 case 'CREATE':
                     if (array_key_exists(3, $register) && validatedate($register[3], 'd/m/Y')) {
                         $unixdate = DateTime::createFromFormat('d/m/Y', $register[3])->getTimestamp();
-
                     } else {
                         throw new Exception('Error');
                     }
                     if (array_key_exists(4, $register) && is_int((int) $register[4]) && ($register[4] >= 1 && $register[4] <= 4)) {
                         $convnumber = $register[4];
-
                     } else {
                         throw new Exception('Error');
                     }
@@ -1267,10 +1263,10 @@ function integrate_previous_data ($data) {
                     $record1->course_shortname = $courseshortname;
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
-                    $DB->insert_record('local_eudecustom_mat_int', $record1);
-
+                    $DB->insert_record('local_eudecustom_mat_int', $record1);             
                     $record2 = $DB->get_record('local_eudecustom_user',
-                            array('user_email' => $useremail, 'course_category' => $coursecategoryname));
+                            array('user_email' => $useremail, 'course_category' => $coursecategory->id));
+
                     // Create/Update entry in local_eudecustom_user.
                     if ($record2) {
                         $record2->num_intensive = $record2->num_intensive + 1;
@@ -1278,10 +1274,11 @@ function integrate_previous_data ($data) {
                     } else {
                         $record = new stdClass();
                         $record->user_email = $useremail;
-                        $record->course_category = $coursecategoryname;
+                        $record->course_category = $coursecategory->id;
                         $record->num_intensive = 1;
                         $DB->insert_record('local_eudecustom_user', $record);
                     }
+
                     break;
                 /*
                  * With DELETE action we delete all the records in local_eudecustom_mat_int of that course related
@@ -1295,7 +1292,7 @@ function integrate_previous_data ($data) {
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
                     // Delete/Update entry in local_eudecustom_user.
                     $record2 = $DB->get_record('local_eudecustom_user',
-                            array('user_email' => $useremail, 'course_category' => $coursecategoryname));
+                            array('user_email' => $useremail, 'course_category' => $coursecategory->id));
                     if ($record2) {
                         $record2->num_intensive = $record2->num_intensive - count($records);
                         // If the new number is > 0 we make an update, else we make a delete.
