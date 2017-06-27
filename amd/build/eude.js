@@ -1,4 +1,4 @@
-﻿// This file is part of Moodle - http://moodle.org/
+﻿﻿// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,16 +40,16 @@
                                     try {
                                         $('#menucoursename').append(response);
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -67,16 +67,16 @@
                                     try {
                                         $('#menudestinatarioname').append(response);
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -289,27 +289,28 @@
                                                 if (!$(this).val()) {
                                                     fieldNull = true;
                                                 }
-                                                datewithslash = $(this).val();
-                                                datewithdash = datewithslash.replace(new RegExp('/', 'g'), '-');
+                                                var datewithslash = $(this).val();
+                                                var datewithdash = datewithslash.replace(new RegExp('/', 'g'), '-');
                                                 $(this).val(datewithdash);
                                             });
                                             if (fieldNull) {
                                                 e.preventDefault();
-                                                window.alert(
-                                                        'Hay campos incorrectos, debe de rellenar todos los campos correctamente para guardar los datos');
+                                                var text1 = 'Hay campos incorrectos';
+                                                var text2 = 'Rellene correctamente todos los campos';
+                                                window.alert(text1 + '. ' + text2);
                                             }
                                         });
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -341,16 +342,16 @@
                                     try {
                                         $('#menucoursename').append(response);
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -375,16 +376,16 @@
                                     try {
                                         $('#menustudentname').append(response);
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -441,16 +442,16 @@
                                     $.datepicker.setDefaults($.datepicker.regional.es);
                                     $('.inputdate').datepicker({dateFormat: 'dd/mm/yy'}).val();
                                 } catch (ex) {
-                                    console.log(ex.message);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(ex.message);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
 
                             },
                             error: function (jqXHR, status, thrownerror) {
-                                console.log(jqXHR.responseText);
-                                console.log(status);
-                                console.log(thrownerror);
+                                window.console.log(jqXHR.responseText);
+                                window.console.log(status);
+                                window.console.log(thrownerror);
                             }
                         });
                     });
@@ -493,18 +494,18 @@
                 eventlist: function () {
                     $('#printeventbutton').click(function () {
                         $('.datepickerwrapper').hide();
-						$('#generateeventlist').hide();
+                        $('#generateeventlist').hide();
                         $('#printeventbutton').hide();
                         $('#page-footer').hide();
-						$('#moodle-footer').hide();
-						$('#mr-nav').hide();
+                        $('#moodle-footer').hide();
+                        $('#mr-nav').hide();
                         window.print();
 
                         $('.contentwrapper').show();
                         $('#printeventbutton').show();
                         $('#page-footer').show();
-						$('#moodle-footer').show();
-						$('#mr-nav').show();
+                        $('#moodle-footer').show();
+                        $('#mr-nav').show();
                     });
                     var es = {
                         closeText: 'Cerrar',
@@ -532,26 +533,29 @@
                     $.datepicker.setDefaults($.datepicker.regional.es);
                     $('.inputdate').datepicker({dateFormat: 'dd/mm/yy'}).val();
                     $('#generateeventlist').click(function (e) {
-                                    var fieldNull = false;
-                                    $('.inputdate').each(function () {
-                                        if (!$(this).val()) {
-                                            fieldNull = true;
-                                        }
-                                    });
-                                    if (fieldNull) {
-                                        e.preventDefault();
-                                        window.alert('Hay campos incorrectos, debe de rellenar todos los campos correctamente para guardar los datos');
-                                    }
-                                });
+                        var fieldNull = false;
+                        $('.inputdate').each(function () {
+                            if (!$(this).val()) {
+                                fieldNull = true;
+                            }
+                        });
+                        if (fieldNull) {
+                            e.preventDefault();
+                            var text1 = 'Hay campos incorrectos';
+                            var text2 = 'Rellene correctamente todos los campos';
+                            window.alert(text1 + '. ' + text2);
+                        }
+                    });
                 },
                 profile: function () {
-                    function modalAction(){
+                    function modalAction() {
                         $('.abrir').click(function () {
                             var params = $(this).attr('id');
+                            var idcourse;
                             if (params.length == 12) {
-                                var idcourse = params[6];
+                                idcourse = params[6];
                             } else {
-                                var idcourse = params.substring(params.length - 5, 6);
+                                idcourse = params.substring(params.length - 5, 6);
                             }
                             var tpv = params[params.length - 4];
                             var accion = params[params.length - 2];
@@ -572,10 +576,11 @@
 
                                         $('input.btn').click(function () {
                                             var params = $('input.btn').attr('id');
+                                            var idcourse;
                                             if (params.length == 12) {
-                                                var idcourse = params[12];
+                                                idcourse = params[12];
                                             } else {
-                                                var idcourse = params.substring(params.length - 5, 12);
+                                                idcourse = params.substring(params.length - 5, 12);
                                             }
                                             $('#ventana-flotante').css('display', 'block');
                                             $.ajax({
@@ -593,29 +598,29 @@
                                             });
                                         });
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
 
                         });
                         $('.abrirFechas').click(function () {
                             var params = $(this).attr('id');
+                            var idcourse;
                             if (params.length == 18) {
-                                var idcourse = params[12];
+                                idcourse = params[12];
                             } else {
-                                var idcourse = params.substring(params.length - 5, 12);
+                                idcourse = params.substring(params.length - 5, 12);
                             }
                             var tpv = params[params.length - 4];
-                            var accion = params[params.length - 2];
                             $('#ventana-flotante').css('display', 'block');
                             $.ajax({
                                 data: 'idcourse=' + idcourse,
@@ -646,20 +651,20 @@
                                             $('#fechas').attr('action', 'eudeprofile.php');
                                         }
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
 
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
-                    };
+                    }
                     modalAction();
                     $('#menucategoryname').change(function () {
                         var category = $('#menucategoryname').val();
@@ -684,22 +689,22 @@
                             type: 'post',
                             success: function (response, status, thrownerror) {
                                 try {
-                                    console.log(response);
+                                    window.console.log(response);
                                     $('#student').empty();
                                     $('#student').append(response.student);
                                     $('#tablecontainer').empty();
                                     $('#tablecontainer').append(response.table);
                                     modalAction();
                                 } catch (ex) {
-                                    console.log(ex.message);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(ex.message);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             },
                             error: function (jqXHR, status, thrownerror) {
-                                console.log(jqXHR.responseText);
-                                console.log(status);
-                                console.log(thrownerror);
+                                window.console.log(jqXHR.responseText);
+                                window.console.log(status);
+                                window.console.log(thrownerror);
                             }
                         });
                     });
@@ -717,15 +722,15 @@
                                         $('#tablecontainer').append(response);
                                         modalAction();
                                     } catch (ex) {
-                                        console.log(ex.message);
-                                        console.log(status);
-                                        console.log(thrownerror);
+                                        window.console.log(ex.message);
+                                        window.console.log(status);
+                                        window.console.log(thrownerror);
                                     }
                                 },
                                 error: function (jqXHR, status, thrownerror) {
-                                    console.log(jqXHR.responseText);
-                                    console.log(status);
-                                    console.log(thrownerror);
+                                    window.console.log(jqXHR.responseText);
+                                    window.console.log(status);
+                                    window.console.log(thrownerror);
                                 }
                             });
                         });
@@ -754,11 +759,11 @@
                         var loc = locat.split("?");
                         var path = window.location.pathname;
                         if (path == "/local/eudecustom/eudeprofile.php" ||
-                            path == "/local/eudecustom/eudegradesearch.php") {
+                                path == "/local/eudecustom/eudegradesearch.php") {
                             $('.menulateral .icon-menu a:nth-child(2) li').addClass('selected');
                         }
                         if (path == "/local/eudecustom/eudeteachercontrolpanel.php" ||
-                            path == "/grade/report/overview/index.php") {
+                                path == "/grade/report/overview/index.php") {
                             $('.menulateral .icon-menu a:nth-child(3) li').addClass('selected');
                         }
                         for (var i = 2; i < 8; i++) {

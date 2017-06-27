@@ -244,21 +244,22 @@ class behat_local_eudecustom extends behat_base {
 
         // Use an actual time variable and force to relative matricualtion dates.
         $today = time();
-
+        $course1 = $DB->get_record('course', array('shortname' => 'MI.MBA.C1'));
         $record = new stdClass();
-        $record->courseid = 154003;
-        $record->fecha1 = time() - 604800;
-        $record->fecha2 = time() + 604800;
-        $record->fecha3 = time() + 1280000;
-        $record->fecha4 = time() + 3800000;
+        $record->courseid = $course1->id;
+        $record->fecha1 = $today - 604800;
+        $record->fecha2 = $today + 604800;
+        $record->fecha3 = $today + 1280000;
+        $record->fecha4 = $today + 3800000;
         $DB->insert_record('local_eudecustom_call_date', $record, false);
 
+        $course2 = $DB->get_record('course', array('shortname' => 'MI.MBA.C2'));
         $record2 = new stdClass();
-        $record2->courseid = 154004;
-        $record2->fecha1 = time();
-        $record2->fecha2 = time() + 704800;
-        $record2->fecha3 = time() + 1704800;
-        $record2->fecha4 = time() + 2804800;
+        $record2->courseid = $course2->id;
+        $record2->fecha1 = $today;
+        $record2->fecha2 = $today + 704800;
+        $record2->fecha3 = $today + 1704800;
+        $record2->fecha4 = $today + 2804800;
         $DB->insert_record('local_eudecustom_call_date', $record2, false);
     }
 
@@ -268,7 +269,7 @@ class behat_local_eudecustom extends behat_base {
     public function intensive_enrols() {
 
         global $DB;
-        $coursedata = $DB->get_record('course', array('shortname' => 'MI.C1'));
+        $coursedata = $DB->get_record('course', array('shortname' => 'MI.MBA.C1'));
         $enroldata = $DB->get_record('enrol', array('courseid' => $coursedata->id, 'enrol' => 'manual'));
         $enrolmentdata = $DB->get_record('user_enrolments', array('enrolid' => $enroldata->id));
 
@@ -277,7 +278,7 @@ class behat_local_eudecustom extends behat_base {
 
         $record = new stdClass();
         $record->user_email = "student1@example.com";
-        $record->course_category = 2;
+        $record->course_category = $coursedata->category;
         $record->num_intensive = 1;
         $DB->insert_record('local_eudecustom_user', $record, false);
 
@@ -286,27 +287,27 @@ class behat_local_eudecustom extends behat_base {
 
         $record2 = new stdClass();
         $record2->user_email = "student1@example.com";
-        $record2->course_shortname = "MI.C1";
+        $record2->course_shortname = $coursedata->shortname;
         $record2->matriculation_date = $today - 80000;
         $record2->conv_number = 2;
         $DB->insert_record('local_eudecustom_mat_int', $record2, false);
 
         $record3 = new stdClass();
         $record3->user_email = "student3@example.com";
-        $record3->course_category = 2;
+        $record3->course_category = $coursedata->category;
         $record3->num_intensive = 2;
         $DB->insert_record('local_eudecustom_user', $record3, false);
 
         $record4 = new stdClass();
         $record4->user_email = "student3@example.com";
-        $record4->course_shortname = "MI.C1";
+        $record4->course_shortname = $coursedata->shortname;
         $record4->matriculation_date = $today - 604800;
         $record4->conv_number = 1;
         $DB->insert_record('local_eudecustom_mat_int', $record4, false);
 
         $record5 = new stdClass();
         $record5->user_email = "student3@example.com";
-        $record5->course_shortname = "MI.C1";
+        $record5->course_shortname = $coursedata->shortname;
         $record5->matriculation_date = $today + 3800000;
         $record5->conv_number = 4;
         $DB->insert_record('local_eudecustom_mat_int', $record5, false);
@@ -327,11 +328,13 @@ class behat_local_eudecustom extends behat_base {
      * @param string $xpath xpath of the element
      */
     public function i_click_on_the_element_with_xpath($xpath) {
-        $session = $this->getSession(); // get the mink session
+        $session = $this->getSession();
+        // Get the mink session.
         $element = $session->getPage()->find(
                 'xpath', $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
-        ); // runs the actual query and returns the element
-        // errors must not pass silently
+        );
+        // Runs the actual query and returns the element.
+        // Errors must not pass silently.
         if (null === $element) {
             throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
         }
