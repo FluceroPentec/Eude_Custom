@@ -571,24 +571,17 @@ function get_user_all_courses ($userid) {
     
     $sitecourse = $DB->get_record('course', array('format' => 'site'));
     $role = $DB->get_record('role', array('shortname' => 'student'));
-    $sql = "SELECT  DISTINCT c.*
-              FROM {course} c
-              JOIN (SELECT DISTINCT e.courseid
-                      FROM {enrol} e
-                      JOIN {user_enrolments} ue
-                      ON (ue.enrolid = e.id AND ue.userid = :userid)
-                      ) en
-                      ON (en.courseid = c.id)
-                      JOIN {context} ctx
-                      JOIN {role_assignments} ra
-                      ON (ctx.instanceid = c.id
-                            AND ctx.contextlevel = :context
-                            AND ra.roleid = :role
-                            AND ra.contextid = ctx.id
-                            AND ra.userid = :user
-                            )
-             WHERE c.id > :site AND ra.id > 0
-             ORDER BY c.visible DESC, c.sortorder ASC";
+    $sql = 'SELECT DISTINCT C.*
+              FROM {role_assignments} RA
+              JOIN {role} R ON R.id = RA.roleid
+              JOIN {context} CTX ON CTX.id = RA.contextid
+              JOIN {course} C ON C.id = CTX.instanceid
+             WHERE CTX.contextlevel = :context
+               AND ra.roleid = :role
+               AND ra.contextid = ctx.id
+               AND ra.userid = :user
+               AND C.id > 0
+          ORDER BY c.visible DESC, c.sortorder ASC';  
     $data = $DB->get_records_sql($sql,
             array(
         'userid' => $userid,
