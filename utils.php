@@ -730,8 +730,8 @@ function configureprofiledata ($userid) {
 
                                 $sql = "SELECT $date AS fecha
                                           FROM {local_eudecustom_call_date} f
-                                          JOIN {course} c
-                                         WHERE f.courseid = c.id AND c.category = :category
+                                          JOIN {course} c ON f.courseid = c.id 
+                                         WHERE c.category = :category
                                          ORDER BY fecha ASC
                                          LIMIT 1";
                                 $startconv = $DB->get_record_sql($sql, array('category' => $modint->category));
