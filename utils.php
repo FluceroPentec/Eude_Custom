@@ -668,9 +668,7 @@ function configureprofiledata ($userid) {
                         $object->name = $mycourse->shortname;
                         $object->cat = ' cat' . $mycourse->category;
                         $object->id = ' mod' . $mycourse->id;
-                        echo "dbtype:".$CFG->dbtype;
-                        $type = strpos($CFG->dbtype, 'postgre');
-                        echo "posicion:". $type;
+                        $type = strpos($CFG->dbtype, 'pgsql');
                         if ($type || $type === 0) {
                             $sql = "SELECT to_char(date(to_timestamp(u.timestart)),'DD/MM/YYYY') AS time, u.timestart
                                       FROM {user_enrolments} u
