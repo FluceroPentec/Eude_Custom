@@ -142,7 +142,7 @@ function get_samoo_subjects () {
         'Foro' => get_string('forum', 'local_eudecustom'),
         'Duda' => get_string('doubt', 'local_eudecustom'),
         'Incidencia' => get_string('problem', 'local_eudecustom'),
-        'Petición' => get_string('request', 'local_eudecustom'));
+        'PeticiÃ³n' => get_string('request', 'local_eudecustom'));
 
     return $data;
 }
@@ -1337,32 +1337,19 @@ function validatedate($date, $format = 'Y-m-d H:i:s') {
  */
 function get_intensive_action($data) {
     if ($data->action == 'notenroled') {
-        switch ($data->actiontitle) {
-            case get_string('bringforward', 'local_eudecustom'):
-                $html = html_writer::tag('button', get_string('bringforward', 'local_eudecustom'),
-                                array('class' => $data->actionclass, 'id' => $data->actionid));
-                break;
-            case get_string('retest', 'local_eudecustom'):
-                $html = html_writer::tag('button', get_string('retest', 'local_eudecustom'),
-                                array('class' => $data->actionclass, 'id' => $data->actionid));
-                break;
-            case get_string('increasegrades', 'local_eudecustom'):
-                $html = html_writer::tag('button', get_string('increasegrades', 'local_eudecustom'),
-                                array('class' => $data->actionclass, 'id' => $data->actionid));
-                break;
-            default:
-                $html = '';
-                break;
-        }
+        $cell = html_writer::tag('button', get_string('bringforward', 'local_eudecustom'),
+                array('class' => $data->actionclass, 'id' => $data->actionid));
     } else if ($data->action == 'outweek') {
         $html = html_writer::tag('span', $data->actiontitle, array('class' => 'eudeprofilespan'));
-        $html .= html_writer::tag('i', '·', array('id' => $data->actionid,
-                        'class' => 'fa fa-pencil-square-o ' . $data->actionclass,
+        $html .= html_writer::empty_tag('i',
+                array('id' => $data->actionid, 'class' => 'fa fa-pencil-square-o ' . $data->actionclass,
                         'aria-hidden' => 'true'));
+        $cell = new \html_table_cell($html);
     } else {
         $html = html_writer::tag('span', $data->actiontitle, array('class' => 'eudeprofilespan'));
+        $cell = new \html_table_cell($html);
     }
-    return $html;
+    return $cell;
 }
 
 /**
