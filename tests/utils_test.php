@@ -1994,6 +1994,7 @@ class local_eudecustom_testcase extends advanced_testcase {
          * 1 entry in local_eudecustom_user for user1 with num_intensives = 2)
          */
         $result = integrate_previous_data($data6);
+        var_dump($result);
         $expectedmatintrecords = $DB->get_records('local_eudecustom_mat_int');
         $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
         $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
