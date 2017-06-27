@@ -2394,7 +2394,7 @@ class local_eudecustom_testcase extends advanced_testcase {
     /**
      * Tests for phpunit.
      */
-    public function test_get_user_courses () {
+    public function ok_get_user_courses () {
         global $DB;
 
         $this->resetAfterTest(true);

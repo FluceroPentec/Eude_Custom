@@ -587,7 +587,7 @@ function get_user_all_courses ($userid) {
                             AND ra.contextid = ctx.id
                             AND ra.userid = :user
                             )
-             WHERE c.id > :site AND ra.id IS NOT NULL
+             WHERE c.id > :site AND ra.id > 0
              ORDER BY c.visible DESC, c.sortorder ASC";
     $data = $DB->get_records_sql($sql,
             array(
