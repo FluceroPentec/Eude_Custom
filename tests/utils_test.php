@@ -1957,13 +1957,9 @@ class local_eudecustom_testcase extends advanced_testcase {
         $data5 = 'CREATE;user9@testmail.com;MI.COI.M01;29/04/1970;4' . PHP_EOL .
                 'CREATE;user10@testmail.com;MI.COI.M01;30/04/1970;5';
         $data6 = 'CREATE;user1@testmail.com;MI.COI.M01;21/04/2017;4' . PHP_EOL .
-                'DELETE;user2@testmail.com;MI.COI.M01';
-        /*
-        $data6 = 'CREATE;user1@testmail.com;MI.COI.M01;21/04/2017;4' . PHP_EOL .
                 'DELETE;user2@testmail.com;MI.COI.M01'. PHP_EOL .
                 'CREATE;user3@testmail.com;MI.COI.M01;22/04/2017;4';
-         * 
-         */
+         
         /* Test the function with $data1
          * (expected result: 2 entries in local_eudecustom_mat_int and local_eudecustom_user, one for each user)
          */
@@ -1971,7 +1967,6 @@ class local_eudecustom_testcase extends advanced_testcase {
         $expectedmatintrecords = $DB->get_records('local_eudecustom_mat_int');
         $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
         $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
-        $this->assertTrue($result);
         $this->assertCount(2, $expectedmatintrecords);
         $this->assertEquals($user1->email, $expecteduserrecord1->user_email);
         $this->assertEquals($category1->id, $expecteduserrecord1->course_category);
