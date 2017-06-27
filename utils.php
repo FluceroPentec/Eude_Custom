@@ -670,7 +670,7 @@ function configureprofiledata ($userid) {
                         $object->id = ' mod' . $mycourse->id;
                         $type = strpos($CFG->dbtype, 'pgsql');
                         if ($type || $type === 0) {
-                            $sql = "SELECT to_string(date(to_timestamp(u.timestart)),'DD/MM/YYYY') AS time, u.timestart
+                            $sql = "SELECT to_char(to_timestamp(u.timestart),'DD/MM/YYYY') AS time, u.timestart
                                       FROM {user_enrolments} u
                                       JOIN {enrol} e
                                      WHERE u.enrolid = e.id
