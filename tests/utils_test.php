@@ -1967,6 +1967,7 @@ class local_eudecustom_testcase extends advanced_testcase {
         $expectedmatintrecords = $DB->get_records('local_eudecustom_mat_int');
         $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
         $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
+        $this->assertTrue($result);
         $this->assertCount(2, $expectedmatintrecords);
         $this->assertEquals($user1->email, $expecteduserrecord1->user_email);
         $this->assertEquals($category1->id, $expecteduserrecord1->course_category);
@@ -1997,7 +1998,6 @@ class local_eudecustom_testcase extends advanced_testcase {
         $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
         $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
         $expecteduserrecord3 = $DB->get_record('local_eudecustom_user', array('user_email' => $user3->email));
-        $this->assertTrue($result);
         $this->assertCount(3, $expectedmatintrecords);
         $this->assertEquals($user1->email, $expecteduserrecord1->user_email);
         $this->assertEquals($category1->id, $expecteduserrecord1->course_category);
