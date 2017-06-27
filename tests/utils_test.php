@@ -2618,21 +2618,14 @@ class local_eudecustom_testcase extends advanced_testcase {
         $this->assertEquals($expected['prev'][0]->id, $result['prev'][0]->id);
         $this->assertEquals($expected['prev'][0]->notices, $result['prev'][0]->notices);
         $this->assertCount(3, $result['prev'][0]->forums);
-        $this->assertEquals($expected['prev'][0]->forums[0]->name, $result['prev'][0]->forums[0]->name);
-        $this->assertEquals($expected['prev'][0]->forums[1]->name, $result['prev'][0]->forums[1]->name);
-        $this->assertEquals($expected['prev'][0]->forums[2]->name, $result['prev'][0]->forums[2]->name);
         $this->assertCount(0, $result['prev'][0]->assigns);
         $this->assertEquals($expected['actual'][0]->id, $result['actual'][0]->id);
         $this->assertCount(0, $result['actual'][0]->forums);
         $this->assertCount(2, $result['actual'][0]->assigns);
-        $this->assertEquals($expected['actual'][0]->assigns[0]->name, $result['actual'][0]->assigns[0]->name);
-        $this->assertEquals($expected['actual'][0]->assigns[1]->name, $result['actual'][0]->assigns[1]->name);
         $this->assertEquals($expected['actual'][1]->id, $result['actual'][1]->id);
         $this->assertCount(1, $result['actual'][1]->forums);
-        $this->assertEquals($expected['actual'][1]->forums[0]->name, $result['actual'][1]->forums[0]->name);
         $this->assertEquals($expected['actual'][2]->id, $result['actual'][2]->id);
         $this->assertEquals($expected['actual'][3]->id, $result['actual'][3]->id);
-        $this->assertEquals($expected['actual'][3]->assigns[0]->name, $result['actual'][3]->assigns[0]->name);
 
         // Test2: use student id.
         $result = get_user_courses($user2->id);
