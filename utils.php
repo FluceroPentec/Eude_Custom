@@ -568,7 +568,8 @@ function grades ($cid, $userid) {
  */
 function get_user_all_courses ($userid) {
     global $DB;
-
+    
+    $sitecourse = $DB->get_record('course', array('format' => 'site'));
     $role = $DB->get_record('role', array('shortname' => 'student'));
     $sql = "SELECT  DISTINCT c.*
               FROM {course} c
@@ -586,14 +587,15 @@ function get_user_all_courses ($userid) {
                             AND ra.contextid = ctx.id
                             AND ra.userid = :user
                             )
-             WHERE c.id > 1 AND ra.id IS NOT NULL
+             WHERE c.id > :site AND ra.id IS NOT NULL
              ORDER BY c.visible DESC, c.sortorder ASC";
     $data = $DB->get_records_sql($sql,
             array(
         'userid' => $userid,
         'user' => $userid,
         'context' => CONTEXT_COURSE,
-        'role' => $role->id));
+        'role' => $role->id,
+        'site' => $sitecourse->id));
     return $data;
 }
 
