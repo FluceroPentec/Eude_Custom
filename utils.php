@@ -672,9 +672,8 @@ function configureprofiledata ($userid) {
                         if ($type || $type === 0) {
                             $sql = "SELECT to_char(to_timestamp(u.timestart),'DD/MM/YYYY') AS time, u.timestart
                                       FROM {user_enrolments} u
-                                      JOIN {enrol} e
-                                     WHERE u.enrolid = e.id
-                                       AND e.courseid = :courseid
+                                      JOIN {enrol} e ON u.enrolid = e.id
+                                     WHERE e.courseid = :courseid
                                        AND u.userid = :userid
                                   ORDER BY u.timestart DESC
                                      LIMIT 1";
