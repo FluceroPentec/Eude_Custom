@@ -670,7 +670,7 @@ function configureprofiledata ($userid) {
                         $object->id = ' mod' . $mycourse->id;
                         $type = strpos($CFG->dbtype, 'pgsql');
                         if ($type || $type === 0) {
-                            $sql = "SELECT to_char(date(to_timestamp(u.timestart)),'DD-MM-YYYY') AS time, u.timestart
+                            $sql = "SELECT to_string(date(to_timestamp(u.timestart)),'DD/MM/YYYY') AS time, u.timestart
                                       FROM {user_enrolments} u
                                       JOIN {enrol} e
                                      WHERE u.enrolid = e.id
@@ -690,10 +690,10 @@ function configureprofiledata ($userid) {
                         }
                         $time = $DB->get_record_sql($sql, array('courseid' => $modint->id, 'userid' => $userid));
                         if ($type || $type === 0) {
-                            $sql = "SELECT to_char(date(to_timestamp(fecha1)),'YYYY-MM-DD') AS f1,
-                                to_char(date(to_timestamp(fecha2)),'DD/MM/YYYY') AS f2,
-                                to_char(date(to_timestamp(fecha3)),'DD/MM/YYYY') AS f3,
-                                to_char(date(to_timestamp(fecha4)),'DD/MM/YYYY') AS f4
+                            $sql = "SELECT to_string(date(to_timestamp(fecha1)),'YYYY/MM/DD') AS f1,
+                                to_string(date(to_timestamp(fecha2)),'DD/MM/YYYY') AS f2,
+                                to_string(date(to_timestamp(fecha3)),'DD/MM/YYYY') AS f3,
+                                to_string(date(to_timestamp(fecha4)),'DD/MM/YYYY') AS f4
                                 FROM {local_eudecustom_call_date}
                                 WHERE courseid = :courseid";
                         } else {
