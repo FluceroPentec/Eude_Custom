@@ -670,15 +670,6 @@ function configureprofiledata ($userid) {
                         $object->id = ' mod' . $mycourse->id;
                         $type = strpos($CFG->dbtype, 'postgre');
                         if ($type || $type === 0) {
-                            $sql = 'SELECT FROM_UNIXTIME(u.timestart,"%d/%m/%Y") AS time, u.timestart
-                                      FROM {user_enrolments} u
-                                      JOIN {enrol} e
-                                     WHERE u.enrolid = e.id
-                                       AND e.courseid = :courseid
-                                       AND u.userid = :userid
-                                  ORDER BY u.timestart DESC
-                                     LIMIT 1';
-                        } else {
                             $sql = "SELECT to_char(date(to_timestamp(u.timestart)),'DD/MM/YYYY') AS time, u.timestart
                                       FROM {user_enrolments} u
                                       JOIN {enrol} e
@@ -687,20 +678,29 @@ function configureprofiledata ($userid) {
                                        AND u.userid = :userid
                                   ORDER BY u.timestart DESC
                                      LIMIT 1";
+                        } else {
+                            $sql = 'SELECT FROM_UNIXTIME(u.timestart,"%d/%m/%Y") AS time, u.timestart
+                                      FROM {user_enrolments} u
+                                      JOIN {enrol} e
+                                     WHERE u.enrolid = e.id
+                                       AND e.courseid = :courseid
+                                       AND u.userid = :userid
+                                  ORDER BY u.timestart DESC
+                                     LIMIT 1';
                         }
                         $time = $DB->get_record_sql($sql, array('courseid' => $modint->id, 'userid' => $userid));
                         if ($type || $type === 0) {
-                            $sql = 'SELECT FROM_UNIXTIME(fecha1,"%d/%m/%Y") AS f1, FROM_UNIXTIME(fecha2,"%d/%m/%Y") AS f2,
-                                FROM_UNIXTIME(fecha3,"%d/%m/%Y") AS f3, FROM_UNIXTIME(fecha4,"%d/%m/%Y") AS f4
-                                FROM {local_eudecustom_call_date}
-                                WHERE courseid = :courseid';
-                        } else {
                             $sql = "SELECT to_char(date(to_timestamp(fecha1)),'YYYY-MM-DD') AS f1,
                                 to_char(date(to_timestamp(fecha2)),'DD/MM/YYYY') AS f2,
                                 to_char(date(to_timestamp(fecha3)),'DD/MM/YYYY') AS f3,
                                 to_char(date(to_timestamp(fecha4)),'DD/MM/YYYY') AS f4
                                 FROM {local_eudecustom_call_date}
                                 WHERE courseid = :courseid";
+                        } else {
+                            $sql = 'SELECT FROM_UNIXTIME(fecha1,"%d/%m/%Y") AS f1, FROM_UNIXTIME(fecha2,"%d/%m/%Y") AS f2,
+                                FROM_UNIXTIME(fecha3,"%d/%m/%Y") AS f3, FROM_UNIXTIME(fecha4,"%d/%m/%Y") AS f4
+                                FROM {local_eudecustom_call_date}
+                                WHERE courseid = :courseid';
                         }
                         $convoc = $DB->get_record_sql($sql, array('courseid' => $modint->id));
                         $matriculado = false;
