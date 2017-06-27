@@ -142,7 +142,7 @@ function get_samoo_subjects () {
         'Foro' => get_string('forum', 'local_eudecustom'),
         'Duda' => get_string('doubt', 'local_eudecustom'),
         'Incidencia' => get_string('problem', 'local_eudecustom'),
-        'PeticiÃ³n' => get_string('request', 'local_eudecustom'));
+        'Petición' => get_string('request', 'local_eudecustom'));
 
     return $data;
 }
@@ -568,7 +568,7 @@ function grades ($cid, $userid) {
  */
 function get_user_all_courses ($userid) {
     global $DB;
-    
+
     $sitecourse = $DB->get_record('course', array('format' => 'site'));
     $role = $DB->get_record('role', array('shortname' => 'student'));
     $sql = 'SELECT DISTINCT c.*
@@ -581,7 +581,7 @@ function get_user_all_courses ($userid) {
                AND ra.contextid = ctx.id
                AND ra.userid = :user
                AND c.id > :site
-          ORDER BY c.visible DESC, c.sortorder ASC';  
+          ORDER BY c.visible DESC, c.sortorder ASC';
     $data = $DB->get_records_sql($sql,
             array(
         'userid' => $userid,
@@ -668,21 +668,40 @@ function configureprofiledata ($userid) {
                         $object->name = $mycourse->shortname;
                         $object->cat = ' cat' . $mycourse->category;
                         $object->id = ' mod' . $mycourse->id;
-
-                        $sql = 'SELECT FROM_UNIXTIME(u.timestart,"%d/%m/%Y") AS time, u.timestart
-                                  FROM {user_enrolments} u
-                                  JOIN {enrol} e
-                                 WHERE u.enrolid = e.id
-                                   AND e.courseid = :courseid
-                                   AND u.userid = :userid
-                              ORDER BY u.timestart DESC
-                                 LIMIT 1';
+                        $type = strpos($CFG->dbtype, 'postgre');
+                        if ($type || $type === 0) {
+                            $sql = 'SELECT FROM_UNIXTIME(u.timestart,"%d/%m/%Y") AS time, u.timestart
+                                      FROM {user_enrolments} u
+                                      JOIN {enrol} e
+                                     WHERE u.enrolid = e.id
+                                       AND e.courseid = :courseid
+                                       AND u.userid = :userid
+                                  ORDER BY u.timestart DESC
+                                     LIMIT 1';
+                        } else {
+                            $sql = "SELECT to_char(date(to_timestamp(u.timestart)),'DD/MM/YYYY') AS time, u.timestart
+                                      FROM {user_enrolments} u
+                                      JOIN {enrol} e
+                                     WHERE u.enrolid = e.id
+                                       AND e.courseid = :courseid
+                                       AND u.userid = :userid
+                                  ORDER BY u.timestart DESC
+                                     LIMIT 1";
+                        }
                         $time = $DB->get_record_sql($sql, array('courseid' => $modint->id, 'userid' => $userid));
-
-                        $sql = 'SELECT FROM_UNIXTIME(fecha1,"%d/%m/%Y") AS f1, FROM_UNIXTIME(fecha2,"%d/%m/%Y") AS f2,
-                            FROM_UNIXTIME(fecha3,"%d/%m/%Y") AS f3, FROM_UNIXTIME(fecha4,"%d/%m/%Y") AS f4
-                            FROM {local_eudecustom_call_date}
-                            WHERE courseid = :courseid';
+                        if ($type || $type === 0) {
+                            $sql = 'SELECT FROM_UNIXTIME(fecha1,"%d/%m/%Y") AS f1, FROM_UNIXTIME(fecha2,"%d/%m/%Y") AS f2,
+                                FROM_UNIXTIME(fecha3,"%d/%m/%Y") AS f3, FROM_UNIXTIME(fecha4,"%d/%m/%Y") AS f4
+                                FROM {local_eudecustom_call_date}
+                                WHERE courseid = :courseid';
+                        } else {
+                            $sql = "SELECT to_char(date(to_timestamp(fecha1)),'YYYY-MM-DD') AS f1,
+                                to_char(date(to_timestamp(fecha2)),'DD/MM/YYYY') AS f2,
+                                to_char(date(to_timestamp(fecha3)),'DD/MM/YYYY') AS f3,
+                                to_char(date(to_timestamp(fecha4)),'DD/MM/YYYY') AS f4
+                                FROM {local_eudecustom_call_date}
+                                WHERE courseid = :courseid";
+                        }
                         $convoc = $DB->get_record_sql($sql, array('courseid' => $modint->id));
                         $matriculado = false;
                         if ($time) {
@@ -1237,7 +1256,7 @@ function integrate_previous_data ($data) {
                 $courseshortname = $register[2];
                 $coursecategorynamearray = explode(".", $courseshortname);
                 $coursecategoryname = $categoryequivalencyname[$coursecategorynamearray[1]];
-                $coursecategory = $DB-> get_record('course_categories', array('name' => $coursecategoryname));
+                $coursecategory = $DB->get_record('course_categories', array('name' => $coursecategoryname));
             } else {
                 throw new Exception('Error');
             }
@@ -1263,7 +1282,7 @@ function integrate_previous_data ($data) {
                     $record1->course_shortname = $courseshortname;
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
-                    $DB->insert_record('local_eudecustom_mat_int', $record1);             
+                    $DB->insert_record('local_eudecustom_mat_int', $record1);
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
 

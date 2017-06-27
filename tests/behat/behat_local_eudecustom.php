@@ -114,8 +114,8 @@ class behat_local_eudecustom extends behat_base {
         $record2->fecha2 = time();
         $record2->fecha3 = time();
         $record2->fecha4 = time();
-        $result1 = $DB->insert_record('local_eudecustom_call_date', $record1, false);
-        $result2 = $DB->insert_record('local_eudecustom_call_date', $record2, false);
+        $DB->insert_record('local_eudecustom_call_date', $record1, false);
+        $DB->insert_record('local_eudecustom_call_date', $record2, false);
     }
 
     /**
@@ -287,7 +287,7 @@ class behat_local_eudecustom extends behat_base {
         $record2 = new stdClass();
         $record2->user_email = "student1@example.com";
         $record2->course_shortname = "MI.C1";
-        $record2->matriculation_date = time() - 80000;
+        $record2->matriculation_date = $today - 80000;
         $record2->conv_number = 2;
         $DB->insert_record('local_eudecustom_mat_int', $record2, false);
 
@@ -300,14 +300,14 @@ class behat_local_eudecustom extends behat_base {
         $record4 = new stdClass();
         $record4->user_email = "student3@example.com";
         $record4->course_shortname = "MI.C1";
-        $record4->matriculation_date = time() - 604800;
+        $record4->matriculation_date = $today - 604800;
         $record4->conv_number = 1;
         $DB->insert_record('local_eudecustom_mat_int', $record4, false);
 
         $record5 = new stdClass();
         $record5->user_email = "student3@example.com";
         $record5->course_shortname = "MI.C1";
-        $record5->matriculation_date = time() + 3800000;
+        $record5->matriculation_date = $today + 3800000;
         $record5->conv_number = 4;
         $DB->insert_record('local_eudecustom_mat_int', $record5, false);
 
@@ -315,7 +315,7 @@ class behat_local_eudecustom extends behat_base {
 
         $enroldata = new StdClass();
         $enroldata = $DB->get_record('user_enrolments', array('id' => $enrolmentdata->id));
-        $enroldata->timestart = time() + 3800000;
+        $enroldata->timestart = $today + 3800000;
 
         $DB->update_record('user_enrolments', $enroldata, false);
     }
