@@ -1303,7 +1303,6 @@ function integrate_previous_data ($data) {
                  * to the user and delete/update if record exists in local_eudecustom_user.
                  */
                 case 'DELETE':
-                    $DB->set_debug(true);
                     echo "1 ";
                     // Count the records to delete and delete afterwards.
                     $records = $DB->get_records('local_eudecustom_mat_int',
