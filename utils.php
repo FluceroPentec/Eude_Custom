@@ -1265,7 +1265,6 @@ function integrate_previous_data ($data) {
                  * a new entry/update if record exists in local_eudecustom_user.
                  */
                 case 'CREATE':
-                    echo "Create  ";
                     if (array_key_exists(3, $register) && validatedate($register[3], 'd/m/Y')) {
                         $unixdate = DateTime::createFromFormat('d/m/Y', $register[3])->getTimestamp();
                     } else {
@@ -1283,7 +1282,6 @@ function integrate_previous_data ($data) {
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
-                    echo "After Insert   ";
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
 
@@ -1297,7 +1295,6 @@ function integrate_previous_data ($data) {
                         $record->course_category = $coursecategory->id;
                         $record->num_intensive = 1;
                         $DB->insert_record('local_eudecustom_user', $record);
-                        echo "Insert en tabla users";
                     }
 
                     break;
@@ -1306,26 +1303,20 @@ function integrate_previous_data ($data) {
                  * to the user and delete/update if record exists in local_eudecustom_user.
                  */
                 case 'DELETE':
-                    echo "Delete 1 ";
                     // Count the records to delete and delete afterwards.
                     $records = $DB->get_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
-                    echo "2 ->";var_dump($records);
                     $DB->delete_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
-                    echo "3 ";
                     // Delete/Update entry in local_eudecustom_user.
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
                     if ($record2) {
-                        echo "4 ->"; var_dump($record2);
                         $record2->num_intensive = $record2->num_intensive - count($records);
                         // If the new number is > 0 we make an update, else we make a delete.
                         if ($record2->num_intensive > 0) {
-                            echo "5 ";
                             $DB->update_record('local_eudecustom_user', $record2);
                         } else {
-                            echo "6 ";
                             $DB->delete_records('local_eudecustom_user', array('id' => $record2->id));
                         }
                     }
@@ -1337,7 +1328,6 @@ function integrate_previous_data ($data) {
         $transaction->allow_commit();
         $completed = true;
     } catch (Exception $e) {
-        echo "Rollback:   ";var_dump($e);
         $transaction->rollback($e);
         $completed = false;
     } finally {

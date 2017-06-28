@@ -1956,9 +1956,6 @@ class local_eudecustom_testcase extends advanced_testcase {
                 'CREATE;user8@testmail.com;Normal course 2;28-04-1970;1';
         $data5 = 'CREATE;user9@testmail.com;MI.COI.M01;29/04/1970;4' . PHP_EOL .
                 'CREATE;user10@testmail.com;MI.COI.M01;30/04/1970;5';
-        $data6 = 'CREATE;user1@testmail.com;MI.COI.M01;21/04/2017;4' . PHP_EOL .
-                'DELETE;user2@testmail.com;MI.COI.M01'. PHP_EOL .
-                'CREATE;user3@testmail.com;MI.COI.M01;22/04/2017;4';
          
         /* Test the function with $data1
          * (expected result: 2 entries in local_eudecustom_mat_int and local_eudecustom_user, one for each user)
@@ -1988,30 +1985,6 @@ class local_eudecustom_testcase extends advanced_testcase {
 
         $result = integrate_previous_data($data5);
         $this->assertFalse($result);
-
-        /* Test the function with $data6
-         * (expected result: 2 entries in local_eudecustom_mat_int, both for user1 and
-         * 1 entry in local_eudecustom_user for user1 with num_intensives = 2)
-         */
-        $result = integrate_previous_data($data6);
-        echo "Test Result:  ";var_dump($result);
-        $expectedmatintrecords = $DB->get_records('local_eudecustom_mat_int');
-        echo "Expected Records:  ";var_dump($expectedmatintrecords);
-        $expecteduserrecord1 = $DB->get_record('local_eudecustom_user', array('user_email' => $user1->email));
-        echo "Expected record1:  ";var_dump($expecteduserrecord1);
-        $expecteduserrecord2 = $DB->get_record('local_eudecustom_user', array('user_email' => $user2->email));
-        echo "Expected record2:  ";var_dump($expecteduserrecord2);
-        $expecteduserrecord3 = $DB->get_record('local_eudecustom_user', array('user_email' => $user3->email));
-        echo "Expected record3:  ";var_dump($expecteduserrecord3);
-        $this->assertTrue($result);
-        $this->assertCount(3, $expectedmatintrecords);
-        $this->assertEquals($user1->email, $expecteduserrecord1->user_email);
-        $this->assertEquals($category1->id, $expecteduserrecord1->course_category);
-        $this->assertEquals(2, $expecteduserrecord1->num_intensive);
-        $this->assertFalse($expecteduserrecord2);
-        $this->assertEquals($user3->email, $expecteduserrecord3->user_email);
-        $this->assertEquals($category1->id, $expecteduserrecord3->course_category);
-        $this->assertEquals(1, $expecteduserrecord3->num_intensive);
     }
 
     /**
