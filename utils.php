@@ -1265,6 +1265,7 @@ function integrate_previous_data ($data) {
                  * a new entry/update if record exists in local_eudecustom_user.
                  */
                 case 'CREATE':
+                    echo "Create  ";
                     if (array_key_exists(3, $register) && validatedate($register[3], 'd/m/Y')) {
                         $unixdate = DateTime::createFromFormat('d/m/Y', $register[3])->getTimestamp();
                     } else {
@@ -1282,8 +1283,10 @@ function integrate_previous_data ($data) {
                     $record1->matriculation_date = $unixdate;
                     $record1->conv_number = $convnumber;
                     $DB->insert_record('local_eudecustom_mat_int', $record1);
+                    echo "After Insert   ";
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
+                    echo "Record recien insertado  ";var_dump($record2);
 
                     // Create/Update entry in local_eudecustom_user.
                     if ($record2) {
