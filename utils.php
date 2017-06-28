@@ -1303,22 +1303,30 @@ function integrate_previous_data ($data) {
                  * to the user and delete/update if record exists in local_eudecustom_user.
                  */
                 case 'DELETE':
+                    $DB->set_debug(true);
+                    echo "1 ";
                     // Count the records to delete and delete afterwards.
                     $records = $DB->get_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
+                    echo "2 ->";var_dump($records);
                     $DB->delete_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
+                    echo "3 ";
                     // Delete/Update entry in local_eudecustom_user.
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
                     if ($record2) {
+                        echo "4 ->"; var_dump($record2);
                         $record2->num_intensive = $record2->num_intensive - count($records);
                         // If the new number is > 0 we make an update, else we make a delete.
                         if ($record2->num_intensive > 0) {
+                            echo "5 ";
                             $DB->update_record('local_eudecustom_user', $record2);
                         } else {
+                            echo "6 ";
                             $DB->delete_records('local_eudecustom_user', array('id' => $record2->id));
                         }
+                        die();
                     }
                     break;
                 default:
