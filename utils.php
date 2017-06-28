@@ -730,7 +730,7 @@ function configureprofiledata ($userid) {
 
                                 $sql = "SELECT $date AS fecha
                                           FROM {local_eudecustom_call_date} f
-                                          JOIN {course} c ON f.courseid = c.id 
+                                          JOIN {course} c ON f.courseid = c.id
                                          WHERE c.category = :category
                                          ORDER BY fecha ASC
                                          LIMIT 1";
@@ -1355,12 +1355,13 @@ function validatedate($date, $format = 'Y-m-d H:i:s') {
  */
 function get_intensive_action($data) {
     if ($data->action == 'notenroled') {
-        $cell = html_writer::tag('button', get_string('bringforward', 'local_eudecustom'),
+        $cell = html_writer::tag('button', $data->actiontitle,
                 array('class' => $data->actionclass, 'id' => $data->actionid));
     } else if ($data->action == 'outweek') {
         $html = html_writer::tag('span', $data->actiontitle, array('class' => 'eudeprofilespan'));
-        $html .= html_writer::empty_tag('i',
-                array('id' => $data->actionid, 'class' => 'fa fa-pencil-square-o ' . $data->actionclass,
+        $html .= html_writer::tag('i', '·', array(
+                        'id' => $data->actionid,
+                        'class' => 'fa fa-pencil-square-o ' . $data->actionclass,
                         'aria-hidden' => 'true'));
         $cell = new \html_table_cell($html);
     } else {

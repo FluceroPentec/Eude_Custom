@@ -271,7 +271,8 @@ class behat_local_eudecustom extends behat_base {
         global $DB;
         $coursedata = $DB->get_record('course', array('shortname' => 'MI.MBA.C1'));
         $enroldata = $DB->get_record('enrol', array('courseid' => $coursedata->id, 'enrol' => 'manual'));
-        $enrolmentdata = $DB->get_record('user_enrolments', array('enrolid' => $enroldata->id));
+        $userdata = $DB->get_record('user', array('email' => 'student3@example.com'));
+        $enrolmentdata = $DB->get_record('user_enrolments', array('enrolid' => $enroldata->id, 'userid' => $userdata->id));
 
         // Font awesome is required for click on editing dates.
         // include('C:\xampp\htdocs\moodle30\theme\font-awesome-4.7.0\css\font-awesome.min.css');
@@ -288,8 +289,8 @@ class behat_local_eudecustom extends behat_base {
         $record2 = new stdClass();
         $record2->user_email = "student1@example.com";
         $record2->course_shortname = $coursedata->shortname;
-        $record2->matriculation_date = $today - 80000;
-        $record2->conv_number = 2;
+        $record2->matriculation_date = $today - 604800;
+        $record2->conv_number = 1;
         $DB->insert_record('local_eudecustom_mat_int', $record2, false);
 
         $record3 = new stdClass();

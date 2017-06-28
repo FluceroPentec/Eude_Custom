@@ -54,7 +54,6 @@ Feature: Prueba
     And I press "x"
     And I press "Retry module"
     And I wait "2" seconds
-    Then I should see "Intensives"
     And I press "Continue"
     Then I should see "Matriculation completed successfully"
 
@@ -68,8 +67,7 @@ Feature: Prueba
     And I wait "2" seconds
     And I press "Quick matriculation"
     And I press "Continue"
-    And I press "Continue"
-    Then I should see "Error en datos enviados. Contacte con su comercio."
+    Then I should see "Select matriculation date"
     
   @javascript
   Scenario: View intensives modules like a student
@@ -84,19 +82,3 @@ Feature: Prueba
     And I select "4" from the "date" singleselect
     And I press "Continue"
     Then I should see "Intensives"
-
-@javascript
-  Scenario: View intensives modules like an admin
-    Given I log in as "admin"
-    When I go to intensives
-    And I select "MBA" from the "menucategoryname" singleselect
-    And I wait "2" seconds
-    And I set the field with xpath "//*[@id='student']/select" to "401000"
-    And I wait "2" seconds
-    And I follow "Manage periods of intensives"
-    And I select "MBA" from the "menucategoryname" singleselect
-    And I set the field "date1-154004" to "21/06/2017"
-    And I press "Save changes"
-    And I wait "2" seconds
-    Then I should see "Intensive Modules Periods Managements"
-    And I log out
