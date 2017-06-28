@@ -1286,7 +1286,6 @@ function integrate_previous_data ($data) {
                     echo "After Insert   ";
                     $record2 = $DB->get_record('local_eudecustom_user',
                             array('user_email' => $useremail, 'course_category' => $coursecategory->id));
-                    echo "Record recien insertado  ";var_dump($record2);
 
                     // Create/Update entry in local_eudecustom_user.
                     if ($record2) {
@@ -1298,6 +1297,7 @@ function integrate_previous_data ($data) {
                         $record->course_category = $coursecategory->id;
                         $record->num_intensive = 1;
                         $DB->insert_record('local_eudecustom_user', $record);
+                        echo "Insert en tabla users";
                     }
 
                     break;
@@ -1306,7 +1306,7 @@ function integrate_previous_data ($data) {
                  * to the user and delete/update if record exists in local_eudecustom_user.
                  */
                 case 'DELETE':
-                    echo "1 ";
+                    echo "Delete 1 ";
                     // Count the records to delete and delete afterwards.
                     $records = $DB->get_records('local_eudecustom_mat_int',
                             array('user_email' => $useremail, 'course_shortname' => $courseshortname));
