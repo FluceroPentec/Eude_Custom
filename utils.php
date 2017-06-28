@@ -1337,6 +1337,7 @@ function integrate_previous_data ($data) {
         $transaction->allow_commit();
         $completed = true;
     } catch (Exception $e) {
+        echo "Rollback:   ";var_dump($e);
         $transaction->rollback($e);
         $completed = false;
     } finally {
