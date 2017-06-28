@@ -1326,7 +1326,6 @@ function integrate_previous_data ($data) {
                             echo "6 ";
                             $DB->delete_records('local_eudecustom_user', array('id' => $record2->id));
                         }
-                        die();
                     }
                     break;
                 default:
