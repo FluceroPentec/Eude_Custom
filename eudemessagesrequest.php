@@ -56,7 +56,8 @@ if (optional_param('messagecourse', 0, PARAM_INT)) {
               JOIN {context} cxt ON cxt.id = ra.contextid
               JOIN {user} u ON u.id = ra.userid
              WHERE cxt.contextlevel = :context
-               AND cxt.instanceid = :course';
+               AND cxt.instanceid = :course
+          ORDER BY r.shortname';
 
     $data = $DB->get_records_sql($sql, array(
         'context' => CONTEXT_COURSE,

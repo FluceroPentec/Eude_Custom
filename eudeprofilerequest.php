@@ -115,8 +115,8 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
             foreach ($data as $course) {
                 $students += get_course_students($course->id);
             }
-			// Sort the array for the lastname of the students.
-	        sort_array_of_array($students, 'lastname');
+            // Sort the array for the lastname of the students.
+            sort_array_of_array($students, 'lastname');
             if (count($students)) {
                 $html = '<label>' . get_string('choosestudent', 'local_eudecustom') . '</label>';
                 $html .= "<select id='menucategoryname' class='select custom-select menucategoryname' name='categoryname'>";
