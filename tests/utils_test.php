@@ -1956,7 +1956,6 @@ class local_eudecustom_testcase extends advanced_testcase {
                 'CREATE;user8@testmail.com;Normal course 2;28-04-1970;1';
         $data5 = 'CREATE;user9@testmail.com;MI.COI.M01;29/04/1970;4' . PHP_EOL .
                 'CREATE;user10@testmail.com;MI.COI.M01;30/04/1970;5';
-         
         /* Test the function with $data1
          * (expected result: 2 entries in local_eudecustom_mat_int and local_eudecustom_user, one for each user)
          */

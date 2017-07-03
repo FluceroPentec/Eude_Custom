@@ -54,8 +54,7 @@ Feature: Prueba
     And I press "x"
     And I press "Retry module"
     And I wait "2" seconds
-    And I press "Continue"
-    Then I should see "Matriculation completed successfully"
+    Then I should see "Intensives"
 
   @javascript
   Scenario: View intensives modules like a student
@@ -67,7 +66,7 @@ Feature: Prueba
     And I wait "2" seconds
     And I press "Quick matriculation"
     And I press "Continue"
-    Then I should see "Select matriculation date"
+    Then I should see "Intensives"
     
   @javascript
   Scenario: View intensives modules like a student
@@ -79,6 +78,4 @@ Feature: Prueba
     And I wait "1" seconds
     And I click on the element with xpath "//i[@class='fa fa-pencil-square-o abrirFechas']"
     And I wait "1" seconds
-    And I select "4" from the "date" singleselect
-    And I press "Continue"
     Then I should see "Intensives"
