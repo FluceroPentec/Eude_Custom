@@ -115,6 +115,8 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
             foreach ($data as $course) {
                 $students += get_course_students($course->id);
             }
+			// Sort the array for the lastname of the students.
+	        sort_array_of_array($students, 'lastname');
             if (count($students)) {
                 $html = '<label>' . get_string('choosestudent', 'local_eudecustom') . '</label>';
                 $html .= "<select id='menucategoryname' class='select custom-select menucategoryname' name='categoryname'>";
@@ -161,10 +163,10 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                         $tr->cells[] = $cell;
                         $html = html_writer::tag('span', $row->attempts, array('class' => 'attempts'));
                         if ($row->attempts > 0) {
-                            $html .= html_writer::tag('i', '·', array(
-                                    'id' => $data->actionid,
-                                    'class' => 'fa fa-pencil-square-o ' . $data->actionclass,
-                                    'aria-hidden' => 'true'));
+                            $html .= html_writer::empty_tag('i',
+                                            array('id' => 'info', 'class' => 'fa fa-info-circle',
+                                                'title' => $newd->info,
+                                                'aria-hidden' => 'true'));
                         }
                         $cell = new \html_table_cell($html);
                         $tr->cells[] = $cell;

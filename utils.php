@@ -1143,7 +1143,6 @@ function get_actual_module ($catid) {
                    WHERE RA.roleid = :role
                      AND C.category = :category
                      AND UE.timestart < :now
-                     AND UE.timeend >= :now2
                 ORDER BY UE.timestart DESC
                    LIMIT 1";
     $res = $DB->get_record_sql($sql,
@@ -1455,4 +1454,19 @@ function generate_event_keys($modal = '') {
 
     $html .= html_writer::end_tag('ul');
     return $html;
+}
+
+/**
+ * This function sorts an array of objects by a given atribute
+ *
+ * @param array $array of objects
+ * @param string $subfield atribute from where the array will be sorted
+ * @return boolean
+ */
+function sort_array_of_array(&$array, $subfield) {
+    $sortarray = array();
+    foreach ($array as $key => $row) {
+        $sortarray[$key] = $row->$subfield;
+    }
+    array_multisort($sortarray, SORT_ASC, $array);
 }
