@@ -40,6 +40,7 @@ Feature: Test the 'gradesearch' feature works.
     Then I should see "Select the options to find a student."
     Given I set the field "categoryname" to "Cat1"
     And I set the field "coursename" to "M01"
+    And I set the field "studenttypesname" to "Active students"
     And I set the field "studentname" to "2, User"
     And I follow "View student grades"
     Then I should see "Test course 1: View: User report"
