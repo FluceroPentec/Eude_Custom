@@ -16,7 +16,7 @@ Feature: Test the 'integratedata' feature works.
     And the following "courses" exist:
       | category | shortname | idnumber |
       | CAT1     | COI.M.NC1 | C1       |
-      | CAT1     | COI.N.NC2 | C2       |
+      | CAT1     | COI.M.NC2 | C2       |
       | CAT2     | MI.NC1    | C3       |
       | CAT2     | MI.NC2    | C4       |
 

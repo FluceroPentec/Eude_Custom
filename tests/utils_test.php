@@ -2712,7 +2712,7 @@ class local_eudecustom_testcase extends advanced_testcase {
 
         $DB->insert_record('grade_grades', $grades3, false);
 
-        $average0 = get_grade_category($category1);
+        $average0 = get_grade_category($category1->id);
         $this->assertNotEmpty($average0);
         $this->assertEquals(-1, $average0);
 
@@ -2726,7 +2726,7 @@ class local_eudecustom_testcase extends advanced_testcase {
 
         $DB->insert_record('grade_grades', $grades4, false);
 
-        $average = get_grade_category($category1);
+        $average = get_grade_category($category1->id);
         $this->assertNotEmpty($average);
         $this->assertEquals(5.63, $average);
     }

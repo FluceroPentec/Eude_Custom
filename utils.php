@@ -590,7 +590,7 @@ function get_user_all_courses ($userid) {
               JOIN {context} ctx ON ctx.id = ra.contextid
               JOIN {course} c ON c.id = ctx.instanceid
              WHERE ctx.contextlevel = :context
-               AND c.shortname LIKE "%.%"
+               AND c.shortname LIKE "%.M.%"
                AND ra.roleid = :role
                AND ra.contextid = ctx.id
                AND ra.userid = :user
