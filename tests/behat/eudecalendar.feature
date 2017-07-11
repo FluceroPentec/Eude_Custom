@@ -52,8 +52,8 @@ Scenario: Open the eudecalendar view as user1
     #Module begin checked
     And I set the field "modulebegin" to "1"
     And I press "generateeventlist"
-    And I should see "[[COURSE]]M01"
-    #Tes checked
+    And I should see "Module beginning M01"
+    #Test checked
     And I set the field "testdate" to "1"
     And I press "generateeventlist"
     And I should see "Quiz 1 Course 1"
@@ -68,7 +68,7 @@ Scenario: Open the eudecalendar view as user1
     #Intensive module begin checked
     And I set the field "intensivemodulebegin" to "1"
     And I press "generateeventlist"
-    And I should see "[[MI]]MI.M02"
+    And I should see "Intensive module beginning MI.M02"
     #Event site checked
     And I set the field "eudeevent" to "1"
     And I press "generateeventlist"
