@@ -981,14 +981,13 @@ function module_is_intensive ($shortname) {
  *
  *
  * @param int $courseid
- * @param int $actualmodule number of module in shortname
+ * @param int $actualmodule date of the actual module
+ * @param string $role student role
  * @return array $res data of course
  */
-function get_students_course_data ($courseid, $actualmodule) {
+function get_students_course_data ($courseid, $actualmodule, $role) {
     global $DB;
-
     // Get last enrolment in this course.
-    $role = $DB->get_record('role', array('shortname' => 'student'))->id;
     $sql = "SELECT C.id, C.shortname, C.fullname, UE.timestart, UE.timeend, UE.userid, CC.name
                     FROM {course} C
                     JOIN {course_categories} CC ON C.category = CC.id
@@ -998,7 +997,7 @@ function get_students_course_data ($courseid, $actualmodule) {
                     JOIN {enrol} E ON E.id = UE.enrolid AND E.courseid = C.id
                    WHERE RA.roleid = :role
                      AND C.id = :courseid
-                ORDER BY UE.timestart DESC
+                ORDER BY UE.timestart ASC
                    LIMIT 1";
     $res = $DB->get_record_sql($sql, array(
         'role' => $role,
@@ -1119,7 +1118,7 @@ function get_user_courses ($userid) {
                 if (!$coursexists) {
                     $course = new stdClass();
                     $course->id = $r['course'];
-                    $r = get_students_course_data($course->id, $category->actualmodule);
+                    $r = get_students_course_data($course->id, $category->actualmodule, $studentrole);
                     $record = add_course_activities($r);
                     if ($record->date == 'actual') {
                         array_push($records['actual'], $record);
@@ -1141,7 +1140,7 @@ function get_user_courses ($userid) {
             $category->actualmodule = get_actual_module($category->id, $studentrole);
             $course = new stdClass();
             $course->id = $r['course'];
-            $r = get_students_course_data($course->id, $category->actualmodule);
+            $r = get_students_course_data($course->id, $category->actualmodule, $studentrole);
             $record = add_course_activities($r);
             if ($record->date == 'actual') {
                 array_push($records['actual'], $record);
