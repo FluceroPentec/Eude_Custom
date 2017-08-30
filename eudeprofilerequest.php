@@ -86,7 +86,8 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                     }
                     $tr->cells[] = $cell;
                     $html = html_writer::tag('span', $row->attempts, array('class' => 'attempts'));
-                    if ($row->attempts > 0) {
+                    if ($row->attempts > 0 &&
+                            $row->info != get_string('nogrades', 'local_eudecustom')) {
                         $html .= html_writer::empty_tag('i',
                                         array('id' => 'info', 'class' => 'fa fa-info-circle',
                                     'title' => $row->info,
@@ -103,21 +104,23 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
             }
         }
         $categorygrades = get_grade_category($category, $studentid);
-        if ($categorygrades != -1) {
-            $tr = new \html_table_row();
+        $tr = new \html_table_row();
             $tr->attributes['class'] = "cat" . $category . " mod" . $course->id . " total";
-            $cell = new \html_table_cell('Nota media del programa');
+            $cell = new \html_table_cell(get_string('totalgrade', 'local_eudecustom'));
             $tr->cells[] = $cell;
             $cell = new \html_table_cell('');
             $tr->cells[] = $cell;
             $cell = new \html_table_cell('');
             $tr->cells[] = $cell;
+        if ($categorygrades != -1) {
             $cell = new \html_table_cell($categorygrades);
-            $tr->cells[] = $cell;
-            $cell = new \html_table_cell('');
-            $tr->cells[] = $cell;
-            $table->data[] = $tr;
+        } else {
+            $cell = new \html_table_cell('-');
         }
+        $tr->cells[] = $cell;
+        $cell = new \html_table_cell('');
+        $tr->cells[] = $cell;
+        $table->data[] = $tr;
         $html = html_writer::table($table);
         $response = $html;
         // If the request is only for the category we return the select to choose a student.
@@ -126,22 +129,26 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
         $testteacherrole = get_shortname_courses_by_category($USER->id, 'teacher', $category);
         $testmanagerrole = get_shortname_courses_by_category($USER->id, 'manager', $category);
         $students = array();
-        if (has_capability('moodle/site:config', context_system::instance()) || $testeditingteacherrole || $testteacherrole || $testmanagerrole) {
+        if (has_capability('moodle/site:config',
+                context_system::instance()) || $testeditingteacherrole || $testteacherrole || $testmanagerrole) {
             foreach ($data as $course) {
                 $students += get_course_students($course->id, 'student');
             }
             // Sort the array for the lastname of the students.
             sort_array_of_array($students, 'lastname');
             if (count($students)) {
-                $html = '<label>' . get_string('choosestudent', 'local_eudecustom') . '</label>';
-                $html .= "<select id='menucategoryname' class='select custom-select menucategoryname' name='categoryname'>";
-                $html .= "<option value=''>-- Alumno --</option>";
+                $html = html_writer::tag('label', get_string('choosestudent', 'local_eudecustom'), array());
+                $html .= html_writer::start_tag('select',
+                    array('id' => 'menucategoryname', 'name' => 'categoryname',
+                          'class' => 'select custom-select menucategoryname'));
+                $html .= html_writer::tag('option', '-- Alumno --', array('value' => ''));
 
                 foreach ($students as $student) {
-                    $html .= "<option value=$student->id>$student->lastname, $student->firstname</option>";
+                    $html .= html_writer::tag('option', $student->lastname . ', ' . $student->firstname,
+                        array('value' => $student->id));
                 }
 
-                $html .= '</select>';
+                $html .= html_writer::end_tag('select');;
 
                 $response['student'] .= $html;
             }
@@ -177,7 +184,8 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                         }
                         $tr->cells[] = $cell;
                         $html = html_writer::tag('span', $row->attempts, array('class' => 'attempts'));
-                        if ($row->attempts > 0) {
+                        if ($row->attempts > 0 &&
+                            $row->info != get_string('nogrades', 'local_eudecustom')) {
                             $html .= html_writer::empty_tag('i',
                                             array('id' => 'info', 'class' => 'fa fa-info-circle',
                                         'title' => $newd->info,
@@ -194,21 +202,23 @@ if (optional_param('profilecat', 0, PARAM_INT)) {
                 }
             }
             $categorygrades = get_grade_category($category, $USER->id);
+            $tr = new \html_table_row();
+            $tr->attributes['class'] = "cat" . $category . " mod" . $course->id . " total";
+            $lastcell = new \html_table_cell(get_string('totalgrade', 'local_eudecustom'));
+            $tr->cells[] = $lastcell;
+            $lastcell = new \html_table_cell('');
+            $tr->cells[] = $lastcell;
+            $lastcell = new \html_table_cell('');
+            $tr->cells[] = $lastcell;
             if ($categorygrades != -1) {
-                $tr = new \html_table_row();
-                $tr->attributes['class'] = "cat" . $category . " mod" . $course->id . " total";
-                $cellavg = new \html_table_cell('Nota media del programa');
-                $tr->cells[] = $cellavg;
-                $cellavg = new \html_table_cell('');
-                $tr->cells[] = $cellavg;
-                $cellavg = new \html_table_cell('');
-                $tr->cells[] = $cellavg;
-                $cellavg = new \html_table_cell($categorygrades);
-                $tr->cells[] = $cellavg;
-                $cellavg = new \html_table_cell('');
-                $tr->cells[] = $cellavg;
-                $table->data[] = $tr;
+                $lastcell = new \html_table_cell($categorygrades);
+            } else {
+                $lastcell = new \html_table_cell('-');
             }
+            $tr->cells[] = $lastcell;
+            $lastcell = new \html_table_cell('');
+            $tr->cells[] = $lastcell;
+            $table->data[] = $tr;
             $html = html_writer::table($table);
             $response['table'] = $html;
             $response['student'] = '';
