@@ -129,7 +129,7 @@ class eudeprofile_renderer extends \plugin_renderer_base {
         $html = '';
         switch ($data->action) {
             case 'insideweek':
-                $html .= html_writer::tag('span', $data->actiontitle, array('class' => 'eudeprofilespan'));
+                $html .= html_writer::tag('span', format_string($data->actiontitle), array('class' => 'eudeprofilespan'));
                 break;
             case 'outweek':
                 $html .= html_writer::tag('span', $data->actiontitle, array('class' => 'eudeprofilespan'));
@@ -138,7 +138,7 @@ class eudeprofile_renderer extends \plugin_renderer_base {
                                             'aria-hidden' => 'true'));
                 break;
             case 'notenroled':
-                $html .= html_writer::tag('button', $data->actiontitle,
+                $html .= html_writer::tag('button', format_string($data->actiontitle),
                         array('class' => $data->actionclass, 'id' => $data->actionid));
                 break;
             default:
