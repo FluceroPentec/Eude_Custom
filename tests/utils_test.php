@@ -1011,12 +1011,12 @@ class local_eudecustom_testcase extends advanced_testcase {
         $expectedresult .= html_writer::empty_tag('input',
                         array(
                     'type' => 'hidden',
-                    'id' => 'course',
+                    'id' => 'letpv_course',
                     'name' => 'course',
                     'class' => 'form-control'));
         $expectedresult .= html_writer::empty_tag('input',
                         array('type' => 'hidden',
-                    'id' => 'amount',
+                    'id' => 'letpv_amount',
                     'name' => 'amount',
                     'class' => 'form-control',
                     'value' => '60'));
@@ -1032,7 +1032,7 @@ class local_eudecustom_testcase extends advanced_testcase {
                         array(
                     'type' => 'submit',
                     'name' => 'abrirFechas',
-                    'class' => 'btn btn-lg btn-primary btn-block abrirFechas',
+                    'class' => 'btn btn-lg btn-primary btn-block abrirFechas letpv_btn',
                     'value' => get_string('continue', 'local_eudecustom')));
 
         // Testing the function.
@@ -1511,7 +1511,7 @@ class local_eudecustom_testcase extends advanced_testcase {
         $this->assertEquals($data[0]->gradesint, "-");
         $this->assertEquals($data[0]->action, "insideweek");
         $this->assertEquals($data[0]->actionclass, "abrirFechas");
-        $this->assertEquals($data[0]->id, ' mod' . $course6->id);
+        $this->assertEquals($data[0]->id, ' letpv_mod' . $course6->id);
         $this->assertEquals($data[0]->attempts, 0);
         $this->assertEquals($data[0]->info, get_string('nogrades', 'local_eudecustom'));
         $this->assertEquals($data[1]->name, "CT.M.CURSO2");
@@ -1519,14 +1519,14 @@ class local_eudecustom_testcase extends advanced_testcase {
         $this->assertEquals($data[1]->gradesint, "-");
         $this->assertEquals($data[1]->action, "outweek");
         $this->assertEquals($data[1]->actionclass, "abrirFechas");
-        $this->assertEquals($data[1]->id, ' mod' . $course4->id);
+        $this->assertEquals($data[1]->id, ' letpv_mod' . $course4->id);
         $this->assertEquals($data[1]->attempts, 0);
         $this->assertEquals($data[2]->name, "CT.M.CURSO");
         $this->assertEquals($data[2]->grades, "-");
         $this->assertEquals($data[2]->gradesint, "-");
         $this->assertEquals($data[2]->action, "notenroled");
         $this->assertEquals($data[2]->actiontitle, "Early Access");
-        $this->assertEquals($data[2]->id, ' mod' . $course1->id);
+        $this->assertEquals($data[2]->id, ' letpv_mod' . $course1->id);
         $this->assertEquals($data[2]->attempts, 0);
 
         // TEST 2: With grades on normal module.
